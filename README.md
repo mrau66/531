@@ -16,11 +16,16 @@ A comprehensive training calculator for the 531 x 365 program built with [Eleven
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/531-x-365-calculator.git
-cd 531-x-365-calculator
+git clone git@bitbucket.org:mrau12/531-training-app.git
+cd 531-training-app
 
 # Install dependencies
 npm install
+
+# Set up environment variables
+# Create a .env file with your Supabase credentials:
+# SUPABASE_URL=your_supabase_url
+# SUPABASE_ANON_KEY=your_supabase_key
 
 # Start development server
 npm run serve
@@ -32,10 +37,15 @@ npm run build
 ## Deployment
 
 ### Netlify (Recommended)
-1. Connect your GitHub repository to Netlify
-2. Build command: `npm run build`
-3. Publish directory: `_site`
-4. Deploy!
+This project includes a netlify.toml configuration file.
+
+1.Connect your Bitbucket repository to Netlify
+2.Add environment variables in Netlify dashboard:
+- SUPABASE_URL
+- SUPABASE_ANON_KEY
+3.Build command: npm run build
+4.Publish directory: site
+5.Deploy!
 
 ### Vercel
 1. Connect repository to Vercel
@@ -59,6 +69,7 @@ npm run build && npm run deploy
 
 The site uses:
 - **Eleventy** for static site generation
+- **Supabase** Backend and authentication
 - **Nunjucks** for templating
 - **Vanilla JavaScript** for interactivity
 - **CSS Grid & Flexbox** for layout
