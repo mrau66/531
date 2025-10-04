@@ -39,13 +39,13 @@ npm run build
 ### Netlify (Recommended)
 This project includes a netlify.toml configuration file.
 
-1.Connect your Bitbucket repository to Netlify
-2.Add environment variables in Netlify dashboard:
-- SUPABASE_URL
-- SUPABASE_ANON_KEY
-3.Build command: npm run build
-4.Publish directory: site
-5.Deploy!
+1. Connect your Bitbucket repository to Netlify
+2. Add environment variables in Netlify dashboard:
+ - SUPABASE_URL
+ - SUPABASE_ANON_KEY
+3. Build command: npm run build
+4. Publish directory: site
+5. Deploy!
 
 ### Vercel
 1. Connect repository to Vercel
