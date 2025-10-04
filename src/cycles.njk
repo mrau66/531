@@ -1,0 +1,29 @@
+<!-- src/cycles.njk -->
+---
+layout: base.njk
+title: "Cycle Breakdown"
+---
+
+<div class="cycles-content">
+    <h2>12-Cycle Breakdown</h2>
+    
+    <div class="cycle-grid">
+        {% for i in range(1, 13) %}
+            {% set cycle = cycles[i] %}
+            <div class="cycle-card {% if cycle.type == 'Volume' %}volume{% elif cycle.type == 'Intensity' %}intensity{% else %}test{% endif %}">
+                <h3>Cycle {{ i }}</h3>
+                <p class="cycle-type">{{ cycle.type }}</p>
+                <p class="cycle-description">{{ cycle.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="progression-info">
+        <h3>Training Max Progression</h3>
+        <p><strong>Main Lifts (Squat, Bench, Deadlift):</strong> +2.5kg per cycle</p>
+        <p><strong>Overhead Press:</strong> +1.25kg per cycle</p>
+        
+        <h3>Deload Strategy</h3>
+        <p>Take deload weeks on week 7 when possible, or align with life events like competitions or vacations.</p>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="lift-workout" data-lift="{{ liftType }}">
+  
+  <!-- Session Progress & Auto-save -->
+  <div class="session-info">
+    <div class="session-progress">
+      <span id="{{ liftType }}-progress">0/0 exercises completed</span>
+      <div class="progress-bar">
+        <div class="progress-fill" id="{{ liftType }}-progress-bar"></div>
+      </div>
+    </div>
+    <div class="auto-save-status">
+      <span class="status-icon">✅</span>
+      <span class="status-text">Auto-saved</span>
+    </div>
+  </div>
+
+  <!-- Main Sets -->
+  <div class="set-group main-sets">
+    <h3>Main Sets (5s PRO)</h3>
+    <div id="{{ liftType }}-main-sets" class="sets-container">
+      {% for i in range(3) %}
+      <div class="set-row" data-set="{{ i }}">
+        <span class="set-info">
+          Set {{ i + 1 }}: <span class="reps">5</span> reps @ <span class="percentage">65</span>%
+        </span>
+        <span class="weight"><span class="weight-value">0</span> kg</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Supplemental Work -->
+  <div class="set-group supplemental-sets">
+    <h3>Supplemental Work</h3>
+    <div id="{{ liftType }}-supplemental-sets" class="sets-container">
+      {% for i in range(5) %}
+      <div class="set-row" data-set="{{ i }}">
+        <span class="set-info">
+          Set {{ i + 1 }}: <span class="reps">0</span> reps @ <span class="percentage">0</span>%
+        </span>
+        <span class="weight"><span class="weight-value">0</span> kg</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Accessories -->
+  <div class="accessories-section">
+    <h3>Bodyweight Accessories</h3>
+    <div id="{{ liftType }}-accessories" class="accessories-container">
+      <!-- Populated by JavaScript -->
+    </div>
+  </div>
+
+  <!-- No Data State -->
+  <div class="no-data" id="{{ liftType }}-no-data" style="display: none;">
+    <div class="no-data-content">
+      <h4>No Training Max Set</h4>
+      <p>Set your {{ liftName }} training max in <a href="/settings">Settings</a> to see this workout.</p>
+    </div>
+  </div>
+
+</div>

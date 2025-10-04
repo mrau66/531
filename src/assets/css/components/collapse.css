@@ -1,0 +1,103 @@
+.collapsible-section {
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.collapsible-header h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.collapse-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.collapse-btn:hover {
+    background: #e9ecef;
+    color: #333;
+}
+
+.collapse-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.collapsible-content {
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 20px;
+}
+
+.collapsible-content.collapsed {
+    max-height: 0;
+    padding: 0 20px;
+}
+
+.collapsed .collapse-icon {
+    transform: rotate(90deg);
+}
+
+/* Update existing styles to work with new structure */
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 0; /* Remove margin since it's now inside collapsible content */
+}
+
+.cycle-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    margin: 0; /* Remove margin since it's now inside collapsible content */
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cycle-selector {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .cycle-selector select {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .collapsible-header {
+        padding: 12px 15px;
+    }
+    
+    .collapsible-content {
+        padding: 15px;
+    }
+    
+    .collapsible-content.collapsed {
+        padding: 0 15px;
+    }
+}

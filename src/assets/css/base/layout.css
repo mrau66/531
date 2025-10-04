@@ -1,0 +1,47 @@
+/* src/assets/css/base/layout.css */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+}
+
+header {
+    background: linear-gradient(45deg, var(--secondary-color), #999999);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.content {
+    padding: 30px;
+}
+
+footer {
+    background: var(--neutral-color);
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #d0d0d0;
+    color: var(--secondary-color);
+}
+
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}

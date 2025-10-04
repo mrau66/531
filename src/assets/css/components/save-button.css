@@ -1,0 +1,94 @@
+.save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 25px;
+    background: #8b5cf6;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+    letter-spacing: 0.025em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.save-btn:hover:not(:disabled) {
+    background: #7c3aed;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+}
+
+.save-btn:focus:not(:disabled) {
+    background: #7c3aed;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+}
+
+.save-btn:active:not(:disabled) {
+    background: #6d28d9;
+    transform: translateY(0);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.save-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background: #6c757d;
+    color: #fff;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
+}
+
+.save-btn.saving {
+    background: #a855f7;
+    color: #fff;
+    animation: pulse 1.5s infinite;
+    cursor: wait;
+    pointer-events: none;
+    transform: none;
+}
+
+.save-btn.success {
+    background: #10b981;
+    color: #fff;
+}
+
+.save-btn.success:hover:not(:disabled) {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+}
+
+.save-btn.success:focus:not(:disabled) {
+    background: #059669;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+}
+
+.save-btn.error {
+    background: #ef4444;
+    color: #fff;
+}
+
+.save-btn.error:hover:not(:disabled) {
+    background: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+}
+
+.save-btn.error:focus:not(:disabled) {
+    background: #dc2626;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+}

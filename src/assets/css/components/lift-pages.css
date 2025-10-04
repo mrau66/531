@@ -1,0 +1,175 @@
+/* Compact Top Navigation Bar */
+.workout-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: white;
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 20px;
+}
+
+.nav-divider {
+  color: #cbd5e0;
+  font-size: 0.75em;
+  user-select: none;
+}
+
+.nav-btn {
+  padding: 4px 10px;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  font-size: 0.75em;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-btn:hover {
+  background: #f1f5f9;
+  color: #667eea;
+}
+
+.nav-btn:active {
+  background: #e2e8f0;
+}
+
+/* Minimal breadcrumb style */
+.workout-navigation.breadcrumb {
+  padding: 12px 20px;
+  background: transparent;
+  border-bottom: none;
+  font-size: 1.2em;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.workout-navigation.breadcrumb .nav-btn {
+  color: #667eea;
+  background: none;
+  padding: 0 4px;
+  font-weight: 600;
+}
+
+.workout-navigation.breadcrumb .nav-btn:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+.workout-navigation.breadcrumb .current-page {
+  color: #475569;
+  font-weight: 600;
+}
+
+/* Lift page adjustments */
+.lift-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px 20px;
+}
+
+/* Clean, modern lift header */
+.lift-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 20px 24px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.lift-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lift-icon {
+  font-size: 1.5em;
+  color: #6366f1;
+}
+
+.lift-title h2 {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Simple cycle status */
+.cycle-status {
+  background: #f3f4f6;
+  color: #6b7280;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+/* Mobile optimized */
+@media (max-width: 640px) {
+  /* Stack navigation and header on mobile */
+  .workout-navigation {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    margin-bottom: 16px;
+  }
+  
+  .workout-navigation.pill-style {
+    width: calc(100% - 32px);
+    margin: 12px 16px;
+    position: relative;
+    left: 0;
+    transform: none;
+  }
+  
+  .nav-btn {
+    font-size: 0.7em;
+    padding: 6px 8px;
+  }
+  
+  .lift-header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  
+  .lift-title h2 {
+    font-size: 1.5em;
+  }
+  
+  .lift-title {
+    justify-content: center;
+  }
+  
+  .cycle-status {
+    width: fit-content;
+    margin: 0 auto;
+  }
+}
+
+/* Tiny screens */
+@media (max-width: 380px) {
+  .nav-btn {
+    font-size: 0.65em;
+    padding: 5px 6px;
+  }
+  
+  .workout-navigation {
+    gap: 4px;
+  }
+  
+  .lift-title h2 {
+    font-size: 1.25em;
+  }
+}

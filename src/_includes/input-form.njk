@@ -1,0 +1,58 @@
+<!-- src/_includes/input-form.njk -->
+
+<div class="input-section">
+  <div class="section-header">
+      <h3>Enter Your Current 1-Rep Maxes</h3>
+       <button id="save-workout-btn" class="save-btn" type="button">
+            <span class="save-icon">💾</span>
+            <span class="save-text">Save Progress</span>
+        </button>
+    </div>
+    <div class="input-grid">
+        <div class="input-group">
+            <label for="squat-max">Squat 1RM (kg)</label>
+            <input type="number" id="squat-max" min="0" step="2.5">
+        </div>
+        <div class="input-group">
+            <label for="bench-max">Bench 1RM (kg)</label>
+            <input type="number" id="bench-max"  min="0" step="2.5">
+        </div>
+        <div class="input-group">
+            <label for="deadlift-max">Deadlift 1RM (kg)</label>
+            <input type="number" id="deadlift-max"  min="0" step="2.5">
+        </div>
+        <div class="input-group">
+            <label for="ohp-max">OHP 1RM (kg)</label>
+            <input type="number" id="ohp-max"  min="0" step="1.25">
+        </div>
+    </div>
+    
+    <div class="cycle-selector">
+        <label for="cycle-select">Select Cycle:</label>
+        <select id="cycle-select">
+            {% for i in range(1, 13) %}
+                {% set cycleData = cycles[i] %}
+                <option value="{{ i }}">Cycle {{ i }} - {{ cycleData.type }} ({{ cycleData.description | replace("5 sets x ", "5x") }})</option>
+            {% endfor %}
+        </select>
+        
+        <label for="week-select">Week:</label>
+        <select id="week-select">
+            <option value="1">Week 1</option>
+            <option value="2">Week 2</option>
+            <option value="3">Week 3</option>
+        </select>
+    </div>
+</div>
+
+<!-- Status indicators -->
+<div id="save-status" class="save-status" style="display: none;">
+    <span class="status-icon">✅</span>
+    <span class="status-text">Changes saved!</span>
+</div>
+
+<div id="auto-save-indicator" class="auto-save-indicator" style="display: none;">
+    <span class="auto-save-icon">🔄</span>
+    <span class="auto-save-text">Auto-saving...</span>
+</div>
+

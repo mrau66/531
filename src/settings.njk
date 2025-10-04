@@ -1,0 +1,355 @@
+---
+layout: app-base.njk
+title: "Settings"
+subtitle: "Customize Your Training Experience"
+permalink: "/settings/"
+---
+<head>
+    <link rel="stylesheet" href="/assets/css/components/accessory.css">
+    <link rel="stylesheet" href="/assets/css/components/collapse.css">
+</head>
+
+<div class="settings-container">
+    <div class="settings-header">
+        <h2>Training Settings</h2>
+        <p>Configure your training maxes, cycle position, and accessory exercises. All settings are saved automatically.</p>
+    </div>
+
+    <div class="settings-content">
+        
+        <!-- SECTION 1: Training Maxes -->
+        <div class="settings-section">
+            <div class="section-header">
+                <h3>Training Maxes</h3>
+                <button id="save-training-maxes-btn" class="save-btn" type="button">
+                    <span class="save-icon">💾</span>
+                    <span class="save-text">Save Training Maxes</span>
+                </button>
+            </div>
+            
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h4>Enter Your Training Maxes</h4>
+                    <button class="collapse-btn" data-target="training-maxes-content" type="button">
+                        <span class="collapse-icon">−</span>
+                    </button>
+                </div>
+                <div class="collapsible-content" id="training-maxes-content">
+                    <div class="input-grid">
+                        <div class="increase-tm-container">
+                            <button class="increase-tm" id="increaseTmButton">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <defs>
+                                        <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style="stop-color: #4ade80; stop-opacity: 1"></stop>
+                                            <stop offset="100%" style="stop-color: #16a34a; stop-opacity: 1"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <circle cx="12" cy="12" r="11" fill="url(#greenGradient)" stroke="#065f46" stroke-width="0.5"></circle>
+                                    <path d="M12 6v12M6 12h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path>
+                                </svg>
+                            </button>
+                            <span class="increase-tm-label">Increase All TMs</span>
+                        </div>
+                        <div class="input-group">
+                            <label for="squat-max">Squat TM (kg)</label>
+                            <input type="number" id="squat-max" min="0" step="2.5" value="" />
+                        </div>
+                        <div class="input-group">
+                            <label for="bench-max">Bench TM (kg)</label>
+                            <input type="number" id="bench-max" min="0" step="2.5" value="" />
+                        </div>
+                        <div class="input-group">
+                            <label for="deadlift-max">Deadlift TM (kg)</label>
+                            <input type="number" id="deadlift-max" min="0" step="2.5" value="" />
+                        </div>
+                        <div class="input-group">
+                            <label for="ohp-max">OHP TM (kg)</label>
+                            <input type="number" id="ohp-max" min="0" step="1.25" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Cycle & Week Selection -->
+        <div class="settings-section">
+            <div class="section-header">
+                <h3>Cycle & Week Position</h3>
+                <button id="save-cycle-settings-btn" class="save-btn" type="button">
+                    <span class="save-icon">💾</span>
+                    <span class="save-text">Save Position</span>
+                </button>
+            </div>
+            
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h4>Current Program Position</h4>
+                    <button class="collapse-btn" data-target="cycle-settings-content" type="button">
+                        <span class="collapse-icon">−</span>
+                    </button>
+                </div>
+                <div class="collapsible-content" id="cycle-settings-content">
+                    <div class="cycle-selector">
+                        <label for="cycle-select">Select Cycle:</label>
+                        <select id="cycle-select">
+                            {% for i in range(1, 13) %}
+                                {% set cycleData = cycles[i] %}
+                                <option value="{{ i }}">
+                                    Cycle {{ i }} - {{ cycleData.type }}
+                                    ({{ cycleData.description | replace("5 sets x ", "5x") }})
+                                </option>
+                            {% endfor %}
+                        </select>
+
+                        <label for="week-select">Week:</label>
+                        <select id="week-select">
+                            <option value="1">Week 1</option>
+                            <option value="2">Week 2</option>
+                            <option value="3">Week 3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Accessory Exercises -->
+        <div class="settings-section">
+            <div class="section-header">
+                <h3>Accessory Exercise Selection</h3>
+                <button id="save-accessories-btn" class="save-btn" type="button">
+                    <span class="save-icon">💾</span>
+                    <span class="save-text">Save Accessories</span>
+                </button>
+            </div>
+            
+            <div class="lift-settings-grid">
+                
+                <!-- Squat Accessories -->
+                <div class="lift-settings-card">
+                    <div class="lift-settings-header">
+                        <div class="lift-icon">🏋️‍♂️</div>
+                        <h3>Squat Accessories</h3>
+                        <span class="selection-count" id="squat-count">0 selected</span>
+                    </div>
+                    <div class="accessories-list" data-lift="squat">
+                        {% include "all-accessories.njk" %}
+                    </div>
+                </div>
+
+                <!-- Bench Press Accessories -->
+                <div class="lift-settings-card">
+                    <div class="lift-settings-header">
+                        <div class="lift-icon">💪</div>
+                        <h3>Bench Press Accessories</h3>
+                        <span class="selection-count" id="bench-count">0 selected</span>
+                    </div>
+                    <div class="accessories-list" data-lift="bench">
+                        {% include "all-accessories.njk" %}
+                    </div>
+                </div>
+
+                <!-- Deadlift Accessories -->
+                <div class="lift-settings-card">
+                    <div class="lift-settings-header">
+                        <div class="lift-icon">🔥</div>
+                        <h3>Deadlift Accessories</h3>
+                        <span class="selection-count" id="deadlift-count">0 selected</span>
+                    </div>
+                    <div class="accessories-list" data-lift="deadlift">
+                        {% include "all-accessories.njk" %}
+                    </div>
+                </div>
+
+                <!-- Overhead Press Accessories -->
+                <div class="lift-settings-card">
+                    <div class="lift-settings-header">
+                        <div class="lift-icon">🙌</div>
+                        <h3>Overhead Press Accessories</h3>
+                        <span class="selection-count" id="ohp-count">0 selected</span>
+                    </div>
+                    <div class="accessories-list" data-lift="ohp">
+                        {% include "all-accessories.njk" %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Footer -->
+    <div class="settings-footer">
+        <div class="settings-status">
+            <div id="settings-save-status" class="save-status" style="display: none;">
+                <span class="status-icon">✅</span>
+                <span class="status-text">Settings saved!</span>
+            </div>
+            <div id="settings-auto-save-indicator" class="auto-save-indicator" style="display: none;">
+                <span class="auto-save-icon">🔄</span>
+                <span class="auto-save-text">Auto-saving...</span>
+            </div>
+        </div>
+        
+        <!-- Global Save All Button -->
+        <button id="save-all-settings-btn" class="save-btn save-all-btn" type="button">
+            <span class="save-icon">💾</span>
+            <span class="save-text">Save All Settings</span>
+        </button>
+    </div>
+</div>
+
+<style>
+/* Settings page styles */
+.settings-section {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #f0f0f0;
+}
+
+.settings-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.settings-section .section-header h3 {
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: 500;
+    color: var(--dark-gray-color);
+}
+
+.cycle-selector {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.cycle-selector label {
+    font-weight: 500;
+    font-size: 0.9em;
+    color: var(--dark-gray-color);
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.cycle-selector select {
+    background: white;
+    border: 1.5px solid #dee2e6;
+    min-width: 200px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.save-all-btn {
+    background: var(--success-color) !important;
+    font-size: 16px;
+    padding: 16px 24px;
+    min-width: 160px;
+}
+
+.save-all-btn:hover:not(:disabled) {
+    background: #059669 !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .settings-section {
+        padding: 20px 16px;
+        margin-bottom: 20px;
+    }
+    
+    .settings-section .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .cycle-selector {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+    
+    .cycle-selector select {
+        min-width: auto;
+    }
+    
+    .lift-settings-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+// Simple collapsible functionality
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🏁 Settings page loaded');
+    
+    // Collapsible functionality
+    document.querySelectorAll(".collapsible-header").forEach((header) => {
+        header.addEventListener("click", function () {
+            const collapseBtn = this.querySelector(".collapse-btn");
+            const targetId = collapseBtn.dataset.target;
+            const content = document.getElementById(targetId);
+            toggleCollapse(content, collapseBtn);
+        });
+    });
+});
+
+function toggleCollapse(content, button) {
+    const isCollapsed = content.classList.contains("collapsed");
+
+    if (isCollapsed) {
+        content.classList.remove("collapsed");
+        button.querySelector(".collapse-icon").textContent = "−";
+        button.setAttribute("aria-expanded", "true");
+    } else {
+        content.classList.add("collapsed");
+        button.querySelector(".collapse-icon").textContent = "+";
+        button.setAttribute("aria-expanded", "false");
+    }
+}
+
+// Debug functions available in console
+window.debugSettings = () => {
+    if (!window.stateStore) {
+        console.error('❌ StateStore not available');
+        return;
+    }
+    
+    const state = window.stateStore.getState();
+    console.log('📊 Current state:', state);
+    
+    // Check inputs
+    ['squat', 'bench', 'deadlift', 'ohp'].forEach(lift => {
+        const input = document.getElementById(`${lift}-max`);
+        console.log(`${lift}: State=${state.trainingMaxes[lift]}, Input=${input ? input.value : 'NOT FOUND'}`);
+    });
+    
+    return state;
+};
+
+window.testSaveTrainingMaxes = () => {
+    if (window.stateStore) {
+        window.stateStore.updateState({
+            trainingMaxes: { squat: 100, bench: 80, deadlift: 120, ohp: 60 }
+        });
+        console.log('✅ Test training maxes set');
+        setTimeout(() => window.settingsManager?.forceRefreshUI(), 100);
+    }
+};
+</script>

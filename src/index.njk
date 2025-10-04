@@ -1,0 +1,36 @@
+---
+title: "531 x 365 Program"
+description: "Strength training calculator"
+permalink: "/"
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+<body>
+    {% include "navbar.njk" %}
+    
+    <div class="content">
+ 
+    </div>
+    
+    {% include "env-config.njk" %}
+    
+    <script type="module">
+        import { supabase } from './js/supabase.js';
+        
+        // Auto-redirect if already logged in
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
+                window.location.href = '/app';
+            }
+        });
+    </script>
+</body>
+</html>

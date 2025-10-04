@@ -1,0 +1,125 @@
+.session-save-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin: 16px 0;
+    gap: 16px;
+}
+
+@media (max-width: 768px) {
+    .session-save-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .session-progress {
+        text-align: center;
+    }
+}
+
+.session-progress {
+    font-size: 14px;
+    color: #6c757d;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.session-save-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #8b5cf6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+    letter-spacing: 0.025em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.session-save-btn:hover:not(:disabled) {
+    background: #7c3aed;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+}
+
+.session-save-btn:focus:not(:disabled) {
+    background: #7c3aed;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+}
+
+.session-save-btn:active:not(:disabled) {
+    background: #6d28d9;
+    transform: translateY(0);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.session-save-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background: #6c757d;
+    color: #fff;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
+}
+
+.session-save-btn.saving {
+    background: #a855f7;
+    color: #fff;
+    animation: pulse 1.5s infinite;
+    cursor: wait;
+    pointer-events: none;
+    transform: none;
+}
+
+.session-save-btn.success {
+    background: #10b981;
+    color: #fff;
+}
+
+.session-save-btn.success:hover:not(:disabled) {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+}
+
+.session-save-btn.error {
+    background: #ef4444;
+    color: #fff;
+}
+
+.session-save-btn.error:hover:not(:disabled) {
+    background: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+}
+
+.save-icon {
+    font-size: 16px;
+}
+
+.save-text {
+    font-size: 14px;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}

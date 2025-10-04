@@ -1,0 +1,254 @@
+/* src/assets/css/components/forms.css - Updated prettier version */
+
+.input-section {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.input-section:hover {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 1.4em;
+    font-weight: 500;
+    color: var(--dark-gray-color);
+    letter-spacing: -0.02em;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-weight: 500;
+    font-size: 0.85em;
+    color: var(--secondary-color);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 0;
+}
+
+input[type="number"], 
+select {
+    padding: 14px 16px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    background: #fafafa;
+    color: var(--dark-gray-color);
+}
+
+input[type="number"]:focus, 
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 0, 139, 0.1);
+    transform: none;
+}
+
+input[type="number"]:hover:not(:focus),
+select:hover:not(:focus) {
+    border-color: #d0d0d0;
+    background: white;
+}
+
+
+/* Make the button container align with input groups */
+.increase-tm-container {
+  margin-bottom: 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: row; /* Changed from column to row */
+  align-items: center; /* Center items horizontally */
+  gap: 8px; /* Add space between icon and text */
+  justify-content: flex-start; /* Align to start */
+  height: 100%; /* Take full height of container */
+    transform: translateY(25px); /* Move contents down 5px */
+
+}
+
+/* Style the increase TM button */
+.increase-tm {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+/* Hover effects for the button */
+.increase-tm:hover {
+  transform: translateY(-1px) scale(1.1);
+}
+
+.increase-tm:active {
+  transform: translateY(0) scale(1.05);
+}
+
+/* Style the label text that appears next to the button */
+.increase-tm-label {
+  font-weight: 500;
+  font-size: 0.85em;
+  color: var(--secondary-color);
+  text-transform: none;
+  letter-spacing: 0;
+  margin: 0;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Remove the ::before pseudo-element since we're using inline content */
+.increase-tm-container::before {
+  display: none;
+}
+
+/* Update the input grid to accommodate the inline button */
+.input-grid {
+    display: grid;
+    grid-template-columns: auto repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-bottom: 28px;
+    align-items: end; /* Align all grid items to bottom */
+}
+
+/* Alternative layout for smaller screens */
+@media (max-width: 768px) {
+    .increase-tm-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        text-align: center;
+    }
+    
+    .increase-tm-label {
+        font-size: 0.8em;
+    }
+    
+    .input-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+.cycle-selector {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 0;
+    border: 1px solid #e9ecef;
+}
+
+.cycle-selector label {
+    font-weight: 500;
+    font-size: 0.9em;
+    color: var(--dark-gray-color);
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.cycle-selector select {
+    background: white;
+    border: 1.5px solid #dee2e6;
+    flex: 1;
+    min-width: 200px;
+}
+
+.cycle-selector select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 0, 139, 0.1);
+}
+
+/* Input number styling improvements */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .input-section {
+        padding: 24px 20px;
+        margin: 0 -5px 24px -5px;
+        border-radius: 12px;
+    }
+    
+    .input-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+    
+    .cycle-selector {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+    
+    .cycle-selector select {
+        min-width: auto;
+    }
+}
+
+/* Focus improvements for accessibility */
+.input-group:focus-within label {
+    color: var(--primary-color);
+    transition: color 0.2s ease;
+}
+
+/* Subtle animations */
+.input-group {
+    transition: transform 0.2s ease;
+}
+
+.input-group:focus-within {
+    transform: translateY(-1px);
+}

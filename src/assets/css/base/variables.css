@@ -1,0 +1,33 @@
+/* src/assets/css/base/variables.css */
+
+:root {
+    /* Brand Colors */
+    --primary-color: #00008B;
+    --secondary-color: #a9a9a9;
+    --accent-color: #483D8B;
+    --success-color: #006400;
+    --warning-color: #ff3b3f;
+    
+    /* Grays */
+    --dark-gray-color: #0f0f0f;
+    --lighter-gray-color: #222222;
+    --neutral-color: #eeeeee;
+    
+    /* Lift Colors */
+    --squat-color: #6A5ACD;      /* Slate Blue */
+    --bench-color: #4169E1;      /* Royal Blue */
+    --deadlift-color: #228B22;   /* Forest Green */
+    --ohp-color: #DC143C;        /* Crimson */
+    
+    /* Effects */
+    --background-gradient: linear-gradient(135deg, #eeeeee 0%, #a9a9a9 100%);
+    --card-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    --hover-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    
+    /* Completed Exercise States */
+    --completed-bg: linear-gradient(45deg, #d4edda, #c3e6cb);
+    --completed-bg-hover: #c3e6cb;
+    --completed-border: var(--success-color);
+    --completed-text: var(--success-color);
+    --completed-shadow: inset 0 0 10px rgba(0, 100, 0, 0.1);
+}

@@ -1,0 +1,39 @@
+/* src/assets/css/base/typography.css */
+
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: 300;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.subtitle {
+    margin: 10px 0 0 0;
+    opacity: 0.9;
+    font-size: 1.1em;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--secondary-color);
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.set-info {
+    font-weight: 500;
+    color: var(--lighter-gray-color);
+}
+
+.weight {
+    font-weight: bold;
+    color: var(--accent-color);
+    font-size: 1.1em;
+}
+
+.cycle-type {
+    font-size: 1.1em;
+    opacity: 0.9;
+}

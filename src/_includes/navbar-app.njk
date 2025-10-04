@@ -1,0 +1,114 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/app" class="nav-logo">531x365</a>
+        <div class="nav-menu">
+            <a href="/app" class="nav-link">Calculator</a>
+            <a href="/settings" class="nav-link">Settings</a>
+            <a href="/app/stats/" class="nav-link">Stats</a>
+            <span class="nav-user" id="navbar-user-email">Loading...</span>
+            <button id="sign-out-btn" class="nav-link logout-btn">Sign Out</button>
+        </div>
+    </div>
+</nav>
+
+<script>
+// Update navbar email and handle sign out
+document.addEventListener('DOMContentLoaded', function() {
+    const navbarEmail = document.getElementById('navbar-user-email');
+    const signOutBtn = document.getElementById('sign-out-btn');
+    
+    // Function to update navbar with user info
+    const updateNavbar = (user) => {
+        if (navbarEmail && user) {
+            navbarEmail.textContent = user.email;
+        }
+    };
+    
+    // Function to handle sign out
+    const handleSignOut = async () => {
+        try {
+            signOutBtn.disabled = true;
+            signOutBtn.textContent = 'Signing Out...';
+            
+            if (window.auth && window.auth.signOut) {
+                await window.auth.signOut();
+            } else {
+                // Fallback: direct supabase call
+                if (window.supabase) {
+                    const { error } = await window.supabase.auth.signOut();
+                    if (error) {
+                        console.error('Sign out error:', error);
+                        alert('Error signing out: ' + error.message);
+                    } else {
+                        window.location.href = '/login';
+                    }
+                } else {
+                    console.error('Neither auth nor supabase available');
+                    alert('Unable to sign out. Please refresh the page.');
+                }
+            }
+        } catch (error) {
+            console.error('Sign out error:', error);
+            alert('Error signing out. Please try again.');
+            signOutBtn.disabled = false;
+            signOutBtn.textContent = 'Sign Out';
+        }
+    };
+    
+    // Add click handler for sign out button
+    if (signOutBtn) {
+        signOutBtn.addEventListener('click', handleSignOut);
+    }
+    
+    // Try to get user info immediately if auth is ready
+    const tryUpdateNavbar = () => {
+        if (window.auth && window.auth.currentUser) {
+            updateNavbar(window.auth.currentUser);
+            return true;
+        }
+        return false;
+    };
+    
+    // Try immediately
+    if (!tryUpdateNavbar()) {
+        // Try again after delays
+        setTimeout(tryUpdateNavbar, 500);
+        setTimeout(tryUpdateNavbar, 1000);
+        setTimeout(tryUpdateNavbar, 2000);
+    }
+    
+    // Listen for auth state changes
+    window.addEventListener('userSignedIn', (event) => {
+        updateNavbar(event.detail.user);
+    });
+    
+    window.addEventListener('userSignedOut', () => {
+        if (navbarEmail) {
+            navbarEmail.textContent = 'Loading...';
+        }
+    });
+    
+    window.addEventListener('appInitialized', (event) => {
+        updateNavbar(event.detail.user);
+    });
+    
+    // Fallback: listen for supabase auth changes directly
+    const setupSupabaseListener = () => {
+        if (window.supabase && window.supabase.auth) {
+            window.supabase.auth.onAuthStateChange((event, session) => {
+                console.log('Navbar: Supabase auth state changed:', event);
+                if (session && session.user) {
+                    updateNavbar(session.user);
+                } else if (navbarEmail) {
+                    navbarEmail.textContent = 'Loading...';
+                }
+            });
+        } else {
+            // Try again if supabase isn't ready
+            setTimeout(setupSupabaseListener, 1000);
+        }
+    };
+    
+    setupSupabaseListener();
+});
+</script>

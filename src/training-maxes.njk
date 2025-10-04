@@ -1,0 +1,459 @@
+---
+layout: app-base.njk
+title: "Training Maxes"
+subtitle: "Manage Your Training Max Values"
+permalink: "/training-maxes/"
+---
+
+<div class="page-header">
+  <h1>Training Maxes</h1>
+  <p class="subtitle">Enter and manage your current training max values. These are calculated at 85% of your 1-rep max and increase each cycle.</p>
+</div>
+
+<!-- Training Maxes Section -->
+<div class="input-section">
+  <div class="section-header">
+    <h3>Current Training Maxes</h3>
+    <button id="save-training-maxes-btn" class="save-btn" type="button">
+      <span class="save-icon">💾</span>
+      <span class="save-text" data-original-text="Save Training Maxes">Save Training Maxes</span>
+    </button>
+  </div>
+  
+  <div class="input-grid">
+    <div class="increase-tm-container">
+      <button class="increase-tm" id="increaseTmButton">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <defs>
+            <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color: #4ade80; stop-opacity: 1"></stop>
+              <stop offset="100%" style="stop-color: #16a34a; stop-opacity: 1"></stop>
+            </linearGradient>
+          </defs>
+          <circle cx="12" cy="12" r="11" fill="url(#greenGradient)" stroke="#065f46" stroke-width="0.5"></circle>
+          <path d="M12 6v12M6 12h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path>
+        </svg>
+      </button>
+      <span class="increase-tm-label">Increase All TMs</span>
+    </div>
+    <div class="input-group">
+      <label for="squat-max">Squat TM (kg)</label>
+      <input type="number" id="squat-max" min="0" step="2.5" value="" />
+    </div>
+    <div class="input-group">
+      <label for="bench-max">Bench TM (kg)</label>
+      <input type="number" id="bench-max" min="0" step="2.5" value="" />
+    </div>
+    <div class="input-group">
+      <label for="deadlift-max">Deadlift TM (kg)</label>
+      <input type="number" id="deadlift-max" min="0" step="2.5" value="" />
+    </div>
+    <div class="input-group">
+      <label for="ohp-max">OHP TM (kg)</label>
+      <input type="number" id="ohp-max" min="0" step="1.25" value="" />
+    </div>
+  </div>
+</div>
+
+<!-- Training Max Information -->
+<div class="info-cards">
+  <div class="info-card">
+    <div class="info-card-icon">📊</div>
+    <h4>What are Training Maxes?</h4>
+    <p>Training Maxes (TM) are calculated at 85% of your true 1-rep max. This allows for consistent progression and prevents stalling.</p>
+  </div>
+  
+  <div class="info-card">
+    <div class="info-card-icon">📈</div>
+    <h4>Progression Schedule</h4>
+    <p>Main lifts (Squat, Bench, Deadlift) increase by 2.5kg per cycle. Overhead Press increases by 1.25kg per cycle.</p>
+  </div>
+</div>
+
+<!-- TM History Section -->
+<div class="input-section">
+  <div class="section-header">
+    <h3>Training Max History</h3>
+    <button id="refresh-history-btn" class="save-btn" type="button" style="background: var(--secondary-color);">
+      <span class="save-icon">🔄</span>
+      <span class="save-text">Refresh</span>
+    </button>
+  </div>
+  
+  <div id="tm-history" class="tm-history">
+    <p class="loading-text">Loading history...</p>
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="input-section">
+  <div class="section-header">
+    <h3>Quick Actions</h3>
+  </div>
+  
+  <div class="quick-actions-grid">
+    <button id="calculate-from-1rm-btn" class="action-btn">
+      <span class="btn-icon">🧮</span>
+      <span class="btn-text">Calculate from 1RM</span>
+    </button>
+    
+    <button id="reset-to-deload-btn" class="action-btn" style="background: var(--warning-color);">
+      <span class="btn-icon">⬇️</span>
+      <span class="btn-text">Deload (-10%)</span>
+    </button>
+    
+    <button id="test-max-btn" class="action-btn" style="background: var(--accent-color);">
+      <span class="btn-icon">🎯</span>
+      <span class="btn-text">Test Max Calculator</span>
+    </button>
+  </div>
+</div>
+
+<!-- 1RM Calculator Modal (hidden by default) -->
+<div id="oneRM-calculator-modal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Calculate Training Max from 1RM</h3>
+      <button class="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>Enter your current 1-rep max values to automatically calculate training maxes (85% of 1RM):</p>
+      
+      <div class="input-grid">
+        <div class="input-group">
+          <label for="squat-1rm">Squat 1RM (kg)</label>
+          <input type="number" id="squat-1rm" min="0" step="2.5" />
+        </div>
+        <div class="input-group">
+          <label for="bench-1rm">Bench 1RM (kg)</label>
+          <input type="number" id="bench-1rm" min="0" step="2.5" />
+        </div>
+        <div class="input-group">
+          <label for="deadlift-1rm">Deadlift 1RM (kg)</label>
+          <input type="number" id="deadlift-1rm" min="0" step="2.5" />
+        </div>
+        <div class="input-group">
+          <label for="ohp-1rm">OHP 1RM (kg)</label>
+          <input type="number" id="ohp-1rm" min="0" step="1.25" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="calculate-tm-btn" class="save-btn">Calculate & Set TMs</button>
+      <button id="cancel-calc-btn" class="save-btn" style="background: var(--secondary-color);">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Page header styles */
+.page-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px;
+}
+
+.page-header h1 {
+  margin: 0 0 8px 0;
+  font-size: 2.2em;
+  font-weight: 300;
+}
+
+.page-header .subtitle {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+
+/* Quick actions grid */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.btn-icon {
+  font-size: 1.5em;
+}
+
+.btn-text {
+  font-size: 1em;
+}
+
+/* TM History styles */
+.tm-history {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+}
+
+.history-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.history-entry:last-child {
+  border-bottom: none;
+}
+
+.history-date {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.history-values {
+  display: flex;
+  gap: 16px;
+  font-size: 0.9em;
+  color: var(--secondary-color);
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 0 24px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 24px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: var(--primary-color);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--secondary-color);
+  padding: 4px 8px;
+}
+
+.modal-body {
+  padding: 0 24px 24px 24px;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding: 0 24px 24px 24px;
+}
+
+.loading-text {
+  text-align: center;
+  color: var(--secondary-color);
+  font-style: italic;
+  padding: 40px 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 20px 16px;
+    margin: 0 -5px 24px -5px;
+  }
+  
+  .page-header h1 {
+    font-size: 1.8em;
+  }
+  
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .history-entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 10px;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Increase TM functionality
+  document.getElementById("increaseTmButton")?.addEventListener("click", function () {
+    const inputs = document.querySelectorAll(".input-group input");
+    inputs.forEach((input) => {
+      const currentValue = parseFloat(input.value) || 0;
+      const increment = input.id === "ohp-max" ? 1.25 : 2.5;
+      input.value = currentValue + increment;
+    });
+    
+    // Trigger save after increasing
+    if (window.persistenceManager) {
+      setTimeout(() => window.persistenceManager.saveTrainingMaxes(), 500);
+    }
+  });
+
+  // 1RM Calculator Modal
+  const modal = document.getElementById('oneRM-calculator-modal');
+  const calculateBtn = document.getElementById('calculate-from-1rm-btn');
+  const closeBtn = document.querySelector('.modal-close');
+  const cancelBtn = document.getElementById('cancel-calc-btn');
+  const calculateTMBtn = document.getElementById('calculate-tm-btn');
+
+  calculateBtn?.addEventListener('click', () => {
+    modal.style.display = 'flex';
+  });
+
+  closeBtn?.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  cancelBtn?.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  // Calculate TMs from 1RMs
+  calculateTMBtn?.addEventListener('click', () => {
+    const squat1rm = parseFloat(document.getElementById('squat-1rm').value) || 0;
+    const bench1rm = parseFloat(document.getElementById('bench-1rm').value) || 0;
+    const deadlift1rm = parseFloat(document.getElementById('deadlift-1rm').value) || 0;
+    const ohp1rm = parseFloat(document.getElementById('ohp-1rm').value) || 0;
+
+    // Calculate TMs (85% of 1RM, rounded to nearest 0.5kg)
+    if (squat1rm > 0) {
+      document.getElementById('squat-max').value = Math.round(squat1rm * 0.85 * 2) / 2;
+    }
+    if (bench1rm > 0) {
+      document.getElementById('bench-max').value = Math.round(bench1rm * 0.85 * 2) / 2;
+    }
+    if (deadlift1rm > 0) {
+      document.getElementById('deadlift-max').value = Math.round(deadlift1rm * 0.85 * 2) / 2;
+    }
+    if (ohp1rm > 0) {
+      document.getElementById('ohp-max').value = Math.round(ohp1rm * 0.85 * 4) / 4; // Round to nearest 0.25kg
+    }
+
+    modal.style.display = 'none';
+    
+    // Trigger save
+    if (window.persistenceManager) {
+      setTimeout(() => window.persistenceManager.saveTrainingMaxes(), 500);
+    }
+  });
+
+  // Deload functionality
+  document.getElementById('reset-to-deload-btn')?.addEventListener('click', () => {
+    if (confirm('This will reduce all training maxes by 10%. Are you sure?')) {
+      const inputs = document.querySelectorAll('.input-group input');
+      inputs.forEach(input => {
+        const currentValue = parseFloat(input.value) || 0;
+        if (currentValue > 0) {
+          const deloadValue = Math.round(currentValue * 0.9 * 2) / 2;
+          input.value = deloadValue;
+        }
+      });
+      
+      if (window.persistenceManager) {
+        setTimeout(() => window.persistenceManager.saveTrainingMaxes(), 500);
+      }
+    }
+  });
+
+  // Load TM history
+  loadTMHistory();
+
+  // Refresh history button
+  document.getElementById('refresh-history-btn')?.addEventListener('click', loadTMHistory);
+});
+
+async function loadTMHistory() {
+  const historyContainer = document.getElementById('tm-history');
+  if (!historyContainer) return;
+
+  historyContainer.innerHTML = '<p class="loading-text">Loading history...</p>';
+
+  try {
+    if (window.persistenceManager && window.persistenceManager.getProgressHistory) {
+      const history = await window.persistenceManager.getProgressHistory();
+      
+      if (history && history.length > 0) {
+        let historyHTML = '';
+        history.slice(0, 10).forEach(entry => { // Show last 10 entries
+          const date = new Date(entry.effective_date || entry.created_at).toLocaleDateString();
+          historyHTML += `
+            <div class="history-entry">
+              <div class="history-date">${date}</div>
+              <div class="history-values">
+                <span>S: ${entry.squat_max || 0}kg</span>
+                <span>B: ${entry.bench_max || 0}kg</span>
+                <span>D: ${entry.deadlift_max || 0}kg</span>
+                <span>O: ${entry.ohp_max || 0}kg</span>
+              </div>
+            </div>
+          `;
+        });
+        historyContainer.innerHTML = historyHTML;
+      } else {
+        historyContainer.innerHTML = '<p class="loading-text">No training max history found.</p>';
+      }
+    } else {
+      historyContainer.innerHTML = '<p class="loading-text">History not available - please ensure you\'re logged in.</p>';
+    }
+  } catch (error) {
+    console.error('Error loading TM history:', error);
+    historyContainer.innerHTML = '<p class="loading-text">Error loading history.</p>';
+  }
+}
+</script>

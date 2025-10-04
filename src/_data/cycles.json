@@ -1,0 +1,14 @@
+{
+  "1": { "type": "Volume", "reps": 12, "percentage": 45, "description": "5 sets x 12 reps @ 45% TM" },
+  "2": { "type": "Intensity", "reps": 6, "percentage": 75, "description": "5 sets x 6 reps @ 75% TM" },
+  "3": { "type": "Volume", "reps": 11, "percentage": 50, "description": "5 sets x 11 reps @ 50% TM" },
+  "4": { "type": "Intensity", "reps": 5, "percentage": 80, "description": "5 sets x 5 reps @ 80% TM" },
+  "5": { "type": "Volume", "reps": 10, "percentage": 55, "description": "5 sets x 10 reps @ 55% TM" },
+  "6": { "type": "Intensity", "reps": 4, "percentage": 85, "description": "5 sets x 4 reps @ 85% TM" },
+  "7": { "type": "Volume", "reps": 9, "percentage": 60, "description": "5 sets x 9 reps @ 60% TM" },
+  "8": { "type": "Intensity", "reps": 3, "percentage": 90, "description": "5 sets x 3 reps @ 90% TM" },
+  "9": { "type": "Volume", "reps": 8, "percentage": 65, "description": "5 sets x 8 reps @ 65% TM" },
+  "10": { "type": "Intensity", "reps": 2, "percentage": 95, "description": "5 sets x 2 reps @ 95% TM" },
+  "11": { "type": "Volume", "reps": 7, "percentage": 70, "description": "5 sets x 7 reps @ 70% TM" },
+  "12": { "type": "Max Test", "reps": 0, "percentage": 0, "description": "Test new 1RM and reset TM" }
+}

@@ -1,0 +1,171 @@
+.navbar {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    top: 0;
+    z-index: 100;
+    border-radius: 12px
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    color: white;
+    font-size: 1.8em;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-logo:hover {
+    transform: scale(1.05);
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+    opacity: 1;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-user {
+    color: white;
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.logout-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.login-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.login-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0 15px;
+    }
+    
+    /* Make logo text twice as small on small screens */
+    .nav-logo {
+        font-size: 0.9em; /* Half of the original 1.8em */
+    }
+    
+    .nav-menu {
+        gap: 15px;
+    }
+    
+    /* Hide user email on small screens */
+    .nav-user {
+        display: none;
+    }
+    
+    /* Replace Calculator link text with icon */
+    .nav-link[href="/app"] {
+        text-indent: -9999px;
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 8px 12px;
+        position: relative;
+    }
+    
+    .nav-link[href="/app"]::before {
+        content: "🏋️";
+        color: rgb(231, 227, 227);
+        font-size: 1.4em;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-indent: 0;
+    }
+    
+    /* Replace Settings link text with icon */
+    .nav-link[href="/settings"] {
+        text-indent: -9999px;
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 8px 12px;
+        position: relative;
+    }
+    
+    .nav-link[href="/settings"]::before {
+        content: "⚙️";
+        font-size: 1.2em;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-indent: 0;
+    }
+
+    .nav-link[href="/app/stats/"] {
+        text-indent: -9999px;
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 8px 12px;
+        position: relative;
+    }
+
+    .nav-link[href="/app/stats/"]::before {
+        content: "📊"; /* Stats icon */
+        font-size: 1.3em;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-indent: 0;
+    }
+    
+    /* Keep Sign Out text but make it smaller */
+    .logout-btn {
+        font-size: 0.75em;
+        padding: 6px 12px;
+    }
+}

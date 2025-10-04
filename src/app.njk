@@ -1,0 +1,100 @@
+---
+layout: app-base.njk
+title: "Workout Dashboard"
+subtitle: "531 x 365 Training Program"
+permalink: "/app/"
+---
+
+<div class="dashboard">
+  
+  <!-- Program Status -->
+<div class="program-status">
+  <div class="cycle-info">
+    <div class="cycle-info-item">
+      <span class="label">Current Program</span>
+      <span id="cycle-text-inline" class="value">Cycle 1 - Volume Phase</span>
+    </div>
+    <div class="cycle-info-item">
+      <span class="label">Week</span>
+      <span id="week-text-inline" class="value">Week 1</span>
+    </div>
+    <div class="cycle-info-item">
+      <span class="label">Supplemental Work</span>
+      <span id="description-text-inline" class="value">5 sets x 12 reps @ 45%</span>
+    </div>
+  </div>
+</div>
+
+  <!-- Lift Navigation Grid -->
+  <div class="lifts-grid">
+    
+    <a href="/app/squat/" class="lift-card squat">
+      <div class="lift-card-header">
+        <h3>Squat</h3>
+      </div>
+      <div class="lift-stats">
+        <div class="tm-display">TM: <span id="squat-tm-dash">0</span> kg</div>
+      </div>
+      <div class="lift-action">
+        <span class="action-text">Start Workout →</span>
+      </div>
+    </a>
+
+    <a href="/app/bench/" class="lift-card bench">
+      <div class="lift-card-header">
+        <h3>Bench Press</h3>
+      </div>
+      <div class="lift-stats">
+        <div class="tm-display">TM: <span id="bench-tm-dash">0</span> kg</div>
+      </div>
+      <div class="lift-action">
+        <span class="action-text">Start Workout →</span>
+      </div>
+    </a>
+
+    <a href="/app/deadlift/" class="lift-card deadlift">
+      <div class="lift-card-header">
+        <h3>Deadlift</h3>
+      </div>
+      <div class="lift-stats">
+        <div class="tm-display">TM: <span id="deadlift-tm-dash">0</span> kg</div>
+      </div>
+      <div class="lift-action">
+        <span class="action-text">Start Workout →</span>
+      </div>
+    </a>
+
+    <a href="/app/ohp/" class="lift-card ohp">
+      <div class="lift-card-header">
+        <h3>Overhead Press</h3>
+      </div>
+      <div class="lift-stats">
+        <div class="tm-display">TM: <span id="ohp-tm-dash">0</span> kg</div>
+      </div>
+      <div class="lift-action">
+        <span class="action-text">Start Workout →</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <div class="actions-grid">
+      <a href="/settings" class="action-btn">
+        <span class="btn-icon">⚙️</span>
+        <span class="btn-text">Settings</span>
+      </a>
+      <button id="next-week-btn" class="action-btn">
+        <span class="btn-icon">⏭️</span>
+        <span class="btn-text">Next Week</span>
+      </button>
+      <button id="increase-tm-btn" class="action-btn">
+        <span class="btn-icon">📈</span>
+        <span class="btn-text">Increase TMs</span>
+      </button>
+    </div>
+  </div>
+
+</div>

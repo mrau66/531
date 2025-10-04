@@ -1,0 +1,595 @@
+---
+layout: app-base.njk
+title: "Cycle & Week"
+subtitle: "Set Your Current Program Position"
+permalink: "/cycle-week/"
+---
+
+<div class="page-header">
+  <h1>Cycle & Week Selection</h1>
+  <p class="subtitle">Track your position in the 12-cycle 531 x 365 program. Each cycle has 3 weeks with different intensities.</p>
+</div>
+
+<!-- Current Position Section -->
+<div class="input-section">
+  <div class="section-header">
+    <h3>Current Program Position</h3>
+    <button id="save-cycle-week-btn" class="save-btn" type="button">
+      <span class="save-icon">💾</span>
+      <span class="save-text">Save Position</span>
+    </button>
+  </div>
+  
+  <div class="cycle-selector">
+    <div class="input-group">
+      <label for="cycle-select">Select Cycle:</label>
+      <select id="cycle-select">
+        {% for i in range(1, 13) %}
+          {% set cycleData = cycles[i] %}
+          <option value="{{ i }}">
+            Cycle {{ i }} - {{ cycleData.type }}
+            ({{ cycleData.description | replace("5 sets x ", "5x") }})
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="week-select">Week:</label>
+      <select id="week-select">
+        <option value="1">Week 1</option>
+        <option value="2">Week 2</option>
+        <option value="3">Week 3</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Current Cycle Info -->
+<div id="current-cycle-info" class="cycle-info">
+  <h3>Loading cycle information...</h3>
+  <p class="cycle-type">Please select a cycle and week</p>
+</div>
+
+<!-- Program Overview -->
+<div class="input-section">
+  <div class="section-header">
+    <h3>12-Cycle Program Overview</h3>
+  </div>
+  
+  <div class="cycle-grid">
+    {% for i in range(1, 13) %}
+      {% set cycle = cycles[i] %}
+      <div class="cycle-card {% if cycle.type == 'Volume' %}volume{% elif cycle.type == 'Intensity' %}intensity{% else %}test{% endif %}" 
+           data-cycle="{{ i }}" onclick="selectCycle({{ i }})">
+        <h4>Cycle {{ i }}</h4>
+        <p class="cycle-type">{{ cycle.type }}</p>
+        <p class="cycle-description">{{ cycle.description }}</p>
+        <div class="cycle-progress" id="cycle-{{ i }}-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0% Complete</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Week Intensity Guide -->
+<div class="input-section">
+  <div class="section-header">
+    <h3>Weekly Intensity Guide</h3>
+  </div>
+  
+  <div class="week-guide">
+    <div class="week-card">
+      <div class="week-header">
+        <h4>Week 1</h4>
+        <span class="week-intensity">Base Intensity</span>
+      </div>
+      <div class="week-details">
+        <p><strong>Main Sets:</strong> 65%, 75%, 85% for 5 reps each</p>
+        <p><strong>Focus:</strong> Establish rhythm and technique</p>
+      </div>
+    </div>
+    
+    <div class="week-card">
+      <div class="week-header">
+        <h4>Week 2</h4>
+        <span class="week-intensity">Moderate Intensity</span>
+      </div>
+      <div class="week-details">
+        <p><strong>Main Sets:</strong> 70%, 80%, 90% for 5 reps each</p>
+        <p><strong>Focus:</strong> Increased intensity while maintaining form</p>
+      </div>
+    </div>
+    
+    <div class="week-card">
+      <div class="week-header">
+        <h4>Week 3</h4>
+        <span class="week-intensity">Peak Intensity</span>
+      </div>
+      <div class="week-details">
+        <p><strong>Main Sets:</strong> 75%, 85%, 95% for 5 reps each</p>
+        <p><strong>Focus:</strong> Peak intensity - test your limits</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="input-section">
+  <div class="section-header">
+    <h3>Quick Actions</h3>
+  </div>
+  
+  <div class="quick-actions-grid">
+    <button id="next-week-btn" class="action-btn">
+      <span class="btn-icon">⏭️</span>
+      <span class="btn-text">Advance to Next Week</span>
+    </button>
+    
+    <button id="next-cycle-btn" class="action-btn">
+      <span class="btn-icon">🔄</span>
+      <span class="btn-text">Start Next Cycle</span>
+    </button>
+    
+    <button id="deload-week-btn" class="action-btn" style="background: var(--warning-color);">
+      <span class="btn-icon">⬇️</span>
+      <span class="btn-text">Schedule Deload Week</span>
+    </button>
+    
+    <button id="reset-program-btn" class="action-btn" style="background: var(--secondary-color);">
+      <span class="btn-icon">🔄</span>
+      <span class="btn-text">Reset to Cycle 1</span>
+    </button>
+  </div>
+</div>
+
+<!-- Program Notes -->
+<div class="note">
+  <strong>Program Notes:</strong> The 531 x 365 program alternates between Volume and Intensity phases across 12 cycles. 
+  Take deload weeks as needed, typically around cycle 7 or when life gets busy. Each cycle should take about 3-4 weeks to complete.
+</div>
+
+<style>
+/* Page header styles */
+.page-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px;
+}
+
+.page-header h1 {
+  margin: 0 0 8px 0;
+  font-size: 2.2em;
+  font-weight: 300;
+}
+
+.page-header .subtitle {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+
+/* Cycle selector styles */
+.cycle-selector {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: end;
+}
+
+.cycle-selector .input-group {
+  margin: 0;
+}
+
+.cycle-selector select {
+  width: 100%;
+}
+
+/* Cycle grid styles */
+.cycle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.cycle-card {
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.cycle-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.cycle-card.active {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.cycle-card.volume {
+  background: linear-gradient(45deg, #f0f8f9, #e6f3f5);
+  border-left: 4px solid var(--primary-color);
+}
+
+.cycle-card.intensity {
+  background: linear-gradient(45deg, #fff0f0, #ffe6e6);
+  border-left: 4px solid var(--accent-color);
+}
+
+.cycle-card.test {
+  background: linear-gradient(45deg, var(--neutral-color), #e0e0e0);
+  border-left: 4px solid var(--secondary-color);
+}
+
+.cycle-card h4 {
+  margin: 0 0 8px 0;
+  color: var(--dark-gray-color);
+  font-size: 1.2em;
+}
+
+.cycle-card .cycle-type {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0 0 8px 0;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cycle-card .cycle-description {
+  margin: 0 0 16px 0;
+  color: var(--secondary-color);
+  font-size: 0.85em;
+  line-height: 1.4;
+}
+
+/* Progress bar styles */
+.cycle-progress {
+  margin-top: 12px;
+}
+
+.progress-bar {
+  background: rgba(0,0,0,0.1);
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  background: var(--primary-color);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 0.75em;
+  color: var(--secondary-color);
+}
+
+/* Week guide styles */
+.week-guide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.week-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.week-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.week-header h4 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 1.1em;
+}
+
+.week-intensity {
+  background: var(--primary-color);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75em;
+  font-weight: 500;
+}
+
+.week-details p {
+  margin: 0 0 8px 0;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.week-details strong {
+  color: var(--primary-color);
+}
+
+/* Quick actions styles */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-icon {
+  font-size: 1.5em;
+}
+
+.btn-text {
+  font-size: 1em;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 20px 16px;
+    margin: 0 -5px 24px -5px;
+  }
+  
+  .page-header h1 {
+    font-size: 1.8em;
+  }
+  
+  .cycle-selector {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .cycle-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .week-guide {
+    grid-template-columns: 1fr;
+  }
+  
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Load current cycle/week position
+  loadCurrentPosition();
+  
+  // Update cycle info when selections change
+  const cycleSelect = document.getElementById('cycle-select');
+  const weekSelect = document.getElementById('week-select');
+  
+  cycleSelect?.addEventListener('change', updateCycleInfo);
+  weekSelect?.addEventListener('change', updateCycleInfo);
+  
+  // Save button
+  document.getElementById('save-cycle-week-btn')?.addEventListener('click', saveCycleWeek);
+  
+  // Quick action buttons
+  document.getElementById('next-week-btn')?.addEventListener('click', advanceToNextWeek);
+  document.getElementById('next-cycle-btn')?.addEventListener('click', startNextCycle);
+  document.getElementById('deload-week-btn')?.addEventListener('click', scheduleDeload);
+  document.getElementById('reset-program-btn')?.addEventListener('click', resetProgram);
+  
+  // Initial update
+  updateCycleInfo();
+  updateCycleCards();
+});
+
+function loadCurrentPosition() {
+  // This would typically load from the persistence manager
+  if (window.persistenceManager) {
+    // Load saved position
+    console.log('Loading current cycle/week position...');
+  }
+}
+
+function updateCycleInfo() {
+  const cycleSelect = document.getElementById('cycle-select');
+  const weekSelect = document.getElementById('week-select');
+  const cycleInfo = document.getElementById('current-cycle-info');
+  
+  if (!cycleSelect || !weekSelect || !cycleInfo) return;
+  
+  const cycle = parseInt(cycleSelect.value);
+  const week = parseInt(weekSelect.value);
+  
+  // Get cycle configuration (this should match your existing cycle config)
+  const cycleConfigs = {
+    1: { type: "Volume", description: "5 sets x 12 reps @ 45%" },
+    2: { type: "Intensity", description: "5 sets x 6 reps @ 75%" },
+    3: { type: "Volume", description: "5 sets x 11 reps @ 50%" },
+    4: { type: "Intensity", description: "5 sets x 5 reps @ 80%" },
+    5: { type: "Volume", description: "5 sets x 10 reps @ 55%" },
+    6: { type: "Intensity", description: "5 sets x 4 reps @ 85%" },
+    7: { type: "Volume", description: "5 sets x 9 reps @ 60%" },
+    8: { type: "Intensity", description: "5 sets x 3 reps @ 90%" },
+    9: { type: "Volume", description: "5 sets x 8 reps @ 65%" },
+    10: { type: "Intensity", description: "5 sets x 2 reps @ 95%" },
+    11: { type: "Volume", description: "5 sets x 7 reps @ 70%" },
+    12: { type: "Test Week", description: "Test maxes or TM test" }
+  };
+  
+  const config = cycleConfigs[cycle];
+  if (config) {
+    cycleInfo.innerHTML = `
+      <h3>Cycle ${cycle} (Week ${week}) - ${config.type} Phase</h3>
+      <p class="cycle-type">${config.description}</p>
+    `;
+  }
+  
+  updateCycleCards();
+}
+
+function updateCycleCards() {
+  const currentCycle = parseInt(document.getElementById('cycle-select')?.value || 1);
+  
+  // Update active state
+  document.querySelectorAll('.cycle-card').forEach(card => {
+    const cardCycle = parseInt(card.dataset.cycle);
+    card.classList.toggle('active', cardCycle === currentCycle);
+  });
+}
+
+function selectCycle(cycleNumber) {
+  const cycleSelect = document.getElementById('cycle-select');
+  if (cycleSelect) {
+    cycleSelect.value = cycleNumber;
+    updateCycleInfo();
+  }
+}
+
+function saveCycleWeek() {
+  const cycle = document.getElementById('cycle-select')?.value;
+  const week = document.getElementById('week-select')?.value;
+  
+  if (window.persistenceManager && window.persistenceManager.saveCycleProgress) {
+    window.persistenceManager.saveCycleProgress();
+    
+    // Show success feedback
+    const button = document.getElementById('save-cycle-week-btn');
+    const originalText = button.querySelector('.save-text').textContent;
+    const icon = button.querySelector('.save-icon');
+    
+    button.classList.add('success');
+    icon.textContent = '✅';
+    button.querySelector('.save-text').textContent = 'Saved!';
+    
+    setTimeout(() => {
+      button.classList.remove('success');
+      icon.textContent = '💾';
+      button.querySelector('.save-text').textContent = originalText;
+    }, 2000);
+  }
+  
+  console.log(`Saved position: Cycle ${cycle}, Week ${week}`);
+}
+
+function advanceToNextWeek() {
+  const weekSelect = document.getElementById('week-select');
+  const cycleSelect = document.getElementById('cycle-select');
+  
+  if (!weekSelect || !cycleSelect) return;
+  
+  const currentWeek = parseInt(weekSelect.value);
+  const currentCycle = parseInt(cycleSelect.value);
+  
+  if (currentWeek < 3) {
+    weekSelect.value = currentWeek + 1;
+  } else {
+    // Move to next cycle, week 1
+    if (currentCycle < 12) {
+      cycleSelect.value = currentCycle + 1;
+      weekSelect.value = 1;
+    } else {
+      alert('You\'re already at the end of the program! Consider starting a new cycle or testing your maxes.');
+      return;
+    }
+  }
+  
+  updateCycleInfo();
+  saveCycleWeek();
+}
+
+function startNextCycle() {
+  const cycleSelect = document.getElementById('cycle-select');
+  const weekSelect = document.getElementById('week-select');
+  
+  if (!cycleSelect || !weekSelect) return;
+  
+  const currentCycle = parseInt(cycleSelect.value);
+  
+  if (currentCycle < 12) {
+    cycleSelect.value = currentCycle + 1;
+    weekSelect.value = 1;
+    updateCycleInfo();
+    saveCycleWeek();
+    
+    // Suggest TM increase
+    if (confirm('Starting next cycle! Would you like to increase your training maxes as well?')) {
+      window.location.href = '/training-maxes';
+    }
+  } else {
+    alert('You\'re already at the final cycle! Consider resetting to Cycle 1 with new training maxes.');
+  }
+}
+
+function scheduleDeload() {
+  if (confirm('Deload week recommended! This will set you to Cycle 7, Week 1 (traditional deload position). Continue?')) {
+    document.getElementById('cycle-select').value = 7;
+    document.getElementById('week-select').value = 1;
+    updateCycleInfo();
+    saveCycleWeek();
+    
+    // Suggest TM reduction
+    if (confirm('Would you also like to reduce your training maxes by 10% for the deload?')) {
+      window.location.href = '/training-maxes';
+    }
+  }
+}
+
+function resetProgram() {
+  if (confirm('This will reset you back to Cycle 1, Week 1. Are you sure?')) {
+    document.getElementById('cycle-select').value = 1;
+    document.getElementById('week-select').value = 1;
+    updateCycleInfo();
+    saveCycleWeek();
+  }
+}
+</script>

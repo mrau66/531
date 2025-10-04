@@ -1,0 +1,17 @@
+<!-- Reusable lift page template -->
+<div class="workout-navigation breadcrumb">
+  <a href="{{ prevUrl }}" class="nav-btn prev">← {{ prevName }}</a>
+  <a href="{{ nextUrl }}" class="nav-btn next">{{ nextName }} →</a>
+</div>
+
+<div class="lift-page">
+  <div class="lift-header">
+    <div class="lift-title">
+      <h2>{{ liftName }}</h2>
+    </div>   
+    {% include "cycle-status.njk" %}
+  </div>
+  <div class="workout-content">
+    {% include "lift-workout.njk" %}
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or "531 x 365 Program Calculator" }}</title>
+    <meta name="description" content="{{ description or 'Complete 531 x 365 training program calculator' }}">
+    <link rel="stylesheet" href="/assets/css/style.css">    
+    <link rel="stylesheet" href="/assets/css/base/tabs.css">
+    <link rel="stylesheet" href="/assets/css/components/collapse.css">
+</head>
+<body>
+    {% include "env-config.njk" %}
+    {% include "navbar-app.njk" %}
+    
+    <div class="container">        
+        <main class="content">
+            {{ content | safe }}
+        </main>        
+        <footer>
+            <p>Built with <a href="https://11ty.dev">Eleventy</a> & <a href="https://supabase.com">Supabase</a></p>
+        </footer>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="/js/vendor/validator.min.js"></script>
+    <script src="/js/sql-injection-protection.js"></script>
+    <script type="module" src="/js/supabase.js"></script>
+    
+    <!-- IMPORTANT: Load shared utilities FIRST -->
+    <script type="module" src="/js/shared-init.js"></script>
+    
+    <!-- Core modules -->
+    <script type="module" src="/js/simplified-state-store.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/settings.js"></script>
+    <script type="module" src="/js/workout-manager.js"></script>    
+    <script type="module" src="/js/dashboard.js"></script>
+    <script type="module" src="/js/session-tracker.js"></script>
+</body>
+</html>
