@@ -44,7 +44,7 @@ This project includes a netlify.toml configuration file.
  - SUPABASE_URL
  - SUPABASE_ANON_KEY
 3. Build command: npm run build
-4. Publish directory: site
+4. Publish directory: _site
 5. Deploy!
 
 ### Vercel
