@@ -45,11 +45,7 @@ class AuthManager {
           window.location.href = '/login'
           return
         }
-        
-        // If on login page, show login form
-        if (isLoginPage) {
-          this.initializeLogin()
-        }
+
       }
 
       // Listen for auth changes
@@ -103,11 +99,6 @@ class AuthManager {
     }
   }
 
-  initializeLogin() {
-    // Login page specific initialization
-    console.log('Initializing login page')
-    // Show any login-specific UI elements
-  }
 
   async initializeApp() {
     // App page specific initialization

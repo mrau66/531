@@ -110,9 +110,6 @@ class WorkoutManager {
 
         this.getActiveLifts().forEach(lift => {
             this.updateLift(lift, trainingMaxes[lift] || 0, cycleSettings);
-            if (this.pageType === 'dashboard') {
-                this.updateTabButton(lift, trainingMaxes[lift] > 0);
-            }
         });
     }
 
@@ -218,15 +215,6 @@ class WorkoutManager {
         });
     }
 
-    updateTabButton(liftName, enabled) {
-        const button = document.querySelector(`[data-tab="${liftName}"]`);
-        if (!button) return;
-        
-        button.disabled = !enabled;
-        button.style.opacity = enabled ? '1' : '0.5';
-        button.style.cursor = enabled ? 'pointer' : 'not-allowed';
-    }
-
     setupKeyboardNav() {
         const order = ['squat', 'bench', 'deadlift', 'ohp'];
         const currentIndex = order.indexOf(this.liftType);
@@ -246,7 +234,7 @@ class WorkoutManager {
 document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.startsWith('/app/')) {
         window.workoutManager = new WorkoutManager();
-        window.calculator = window.workoutManager;
+        // window.calculator = window.workoutManager;
         window.refreshWorkout = () => window.workoutManager?.updateWorkouts();
     }
 });

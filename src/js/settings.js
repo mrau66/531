@@ -6,7 +6,7 @@ import { ModuleInitializer, DebugLogger } from './shared-init.js';
 class SettingsManager {
     constructor() {
         this.logger = new DebugLogger('SettingsManager');
-        this.hasUnsavedChanges = false;
+        // this.hasUnsavedChanges = false;
         this.init();
     }
 
@@ -37,7 +37,7 @@ class SettingsManager {
             if (input) {
                 input.addEventListener('input', (e) => {
                     window.stateStore.setTrainingMax(lift, parseFloat(e.target.value) || 0);
-                    this.hasUnsavedChanges = true;
+                    // this.hasUnsavedChanges = true;
                 });
             }
         });
@@ -50,7 +50,7 @@ class SettingsManager {
             const cycle = parseInt(cycleSelect?.value || 1);
             const week = parseInt(weekSelect?.value || 1);
             window.stateStore.setCycleSettings(cycle, week);
-            this.hasUnsavedChanges = true;
+            // this.hasUnsavedChanges = true;
         };
         
         cycleSelect?.addEventListener('change', updateCycle);
@@ -67,7 +67,7 @@ class SettingsManager {
         // Increase TM button
         document.getElementById("increaseTmButton")?.addEventListener("click", () => {
             window.stateStore.increaseTrainingMaxes();
-            this.hasUnsavedChanges = true;
+            // this.hasUnsavedChanges = true;
         });
 
         // Quick action buttons
@@ -103,7 +103,7 @@ class SettingsManager {
             setState('⏳', 'Saving...', true);
             await fn();
             setState('✅', 'Saved!', false);
-            this.hasUnsavedChanges = false;
+            // this.hasUnsavedChanges = false;
         } catch (error) {
             this.logger.error('Save error:', error);
             setState('❌', 'Failed', false);
@@ -200,7 +200,7 @@ class SettingsManager {
         }
 
         window.stateStore.setAccessories(liftType, currentAccessories);
-        this.hasUnsavedChanges = true;
+        // this.hasUnsavedChanges = true;
     }
 
     addQuickActionButtons() {
@@ -267,7 +267,7 @@ class SettingsManager {
         });
 
         window.stateStore.setAccessories(liftType, newAccessories);
-        this.hasUnsavedChanges = true;
+        // this.hasUnsavedChanges = true;
     }
 
     deselectAllForLift(liftType) {
@@ -276,7 +276,7 @@ class SettingsManager {
 
         accessoriesList.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
         window.stateStore.setAccessories(liftType, []);
-        this.hasUnsavedChanges = true;
+        // this.hasUnsavedChanges = true;
     }
 }
 
