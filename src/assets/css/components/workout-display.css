@@ -246,44 +246,6 @@
     opacity: 0.5;
 }
 
-/* Progress Indicators
-.set-counter {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: var(--primary-color);
-    color: white;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75em;
-    font-weight: 600;
-    opacity: 0.8;
-}
-
-.set-row.completed .set-counter {
-    background: var(--success-color);
-    opacity: 1;
-} */
-
-/* Lift-specific accent colors for set rows */
-/* .lift-card.squat .set-row::before { background: var(--squat-color); }
-.lift-card.bench .set-row::before { background: var(--bench-color); }
-.lift-card.deadlift .set-row::before { background: var(--deadlift-color); }
-.lift-card.ohp .set-row::before { background: var(--ohp-color); }
-
-.lift-card.squat .set-row:hover::before { background: var(--squat-color); }
-.lift-card.bench .set-row:hover::before { background: var(--bench-color); }
-.lift-card.deadlift .set-row:hover::before { background: var(--deadlift-color); }
-.lift-card.ohp .set-row:hover::before { background: var(--ohp-color); }
-
-.lift-card.squat .accessories-section::before { background: linear-gradient(90deg, var(--squat-color), var(--accent-color)); }
-.lift-card.bench .accessories-section::before { background: linear-gradient(90deg, var(--bench-color), var(--accent-color)); }
-.lift-card.deadlift .accessories-section::before { background: linear-gradient(90deg, var(--deadlift-color), var(--accent-color)); }
-.lift-card.ohp .accessories-section::before { background: linear-gradient(90deg, var(--ohp-color), var(--accent-color)); } */
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -344,7 +306,3 @@
     animation: fadeInUp 0.6s ease forwards;
 }
 
-/* .lift-card:nth-child(1) { animation-delay: 0.1s; }
-.lift-card:nth-child(2) { animation-delay: 0.2s; }
-.lift-card:nth-child(3) { animation-delay: 0.3s; }
-.lift-card:nth-child(4) { animation-delay: 0.4s; } */

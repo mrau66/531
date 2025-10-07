@@ -80,9 +80,33 @@ class UnifiedStateStore {
       this.createSyncUI();
     }
 
+    // detect when the app resumes and prevent interactions until the reload completes.
+    this.setupVisibilityListener();
+
     this.isInitialized = true;
     console.log("✅ UnifiedStateStore initialized");
   }
+
+    setupVisibilityListener() {
+        document.addEventListener('visibilitychange', async () => {
+            if (!document.hidden && this.state.user) {
+                console.log('👀 Page became visible, reloading data...');
+                
+                // Signal that we're reloading
+                window.dispatchEvent(new CustomEvent('stateStoreReloading'));
+                
+                // Reload fresh data from database
+                await this.loadFromDatabase();
+                
+                // Signal that reload is complete
+                window.dispatchEvent(new CustomEvent('stateStoreFullyReady'));
+                
+                console.log('✅ Data reloaded after resume');
+                }
+        });
+    }
+
+
 
   async waitForAuth() {
     console.log("⏳ Waiting for AuthManager...");
@@ -135,6 +159,8 @@ class UnifiedStateStore {
       if (event.detail.user) {
         this.handleUserSignIn(event.detail.user);
       }
+
+
     });
   }
 
@@ -726,7 +752,7 @@ class UnifiedStateStore {
     const inputSection = document.querySelector(
       ".input-section .section-header"
     );
-    const navbar = document.querySelector(".navbar .nav-menu");
+    const navbar = document.querySelector(".lift-header");
 
     let target = null;
     if (saveBtn?.parentElement) {

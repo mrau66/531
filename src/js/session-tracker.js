@@ -78,56 +78,89 @@ class SessionTracker {
     // Add pending actions queue for early interactions
     this.pendingActions = [];
     this.isProcessingPending = false;
+    this.pendingReloads = 0;
 
     this.init();
   }
 
-async init() {
-    this.setupEventListeners();
-    this.greyOut();
+    async init() {
+        this.setupEventListeners();
+        this.greyOut();
 
-    // Wait for StateStore to exist
-    await this.waitForStateStore();
-    
-    // ✅ Wait for StateStore's "fully ready" event
-    await new Promise(resolve => {
-        window.addEventListener('stateStoreFullyReady', resolve, { once: true });
+        // Wait for StateStore to exist
+        await this.waitForStateStore();
         
-        // Timeout fallback (5 seconds)
-        setTimeout(resolve, 5000);
-    });
-    
-    console.log('✅ StateStore confirmed ready, loading session states');
-
-    this.dbEnabled = !!(
-        window.auth?.currentUser &&
-        window.supabase &&
-        window.stateStore
-    );
-
-    // Load session completion states
-    await this.loadAllStatesFromStateStore();
-
-    // ✅ NOW ungrey everything
-    this.isInitialized = true;
-    this.isLoadingFromDatabase = false;
-    this.unGreyOut();
-    this.processPendingActions();
-    
-    console.log('✅ Session Tracker fully initialized');
-
-    // Subscribe to changes
-    if (window.stateStore) {
-        // debouncing, stop multiple events in quick succession that cause flickering UI and race conditions
-        window.stateStore.subscribe("cycleSettings", () => {
-            clearTimeout(this.reloadTimeout);
-            this.reloadTimeout = setTimeout(
-                () => this.loadAllStatesFromStateStore(),
-                200
-            );
+        // ✅ Wait for StateStore's "fully ready" event
+        await new Promise(resolve => {
+            window.addEventListener('stateStoreFullyReady', resolve, { once: true });
+            
+            // Timeout fallback (5 seconds)
+            setTimeout(resolve, 5000);
         });
+        
+        console.log('✅ StateStore confirmed ready, loading session states');
+
+        this.dbEnabled = !!(
+            window.auth?.currentUser &&
+            window.supabase &&
+            window.stateStore
+        );
+
+        // Load session completion states
+        await this.loadAllStatesFromStateStore();
+
+        // ✅ NOW ungrey everything
+        this.isInitialized = true;
+        this.isLoadingFromDatabase = false;
+        this.unGreyOut();
+        this.processPendingActions();
+        
+        console.log('✅ Session Tracker fully initialized');
+
+        // Subscribe to changes
+        if (window.stateStore) {
+            // debouncing, stop multiple events in quick succession that cause flickering UI and race conditions
+            window.stateStore.subscribe("cycleSettings", () => {
+                clearTimeout(this.reloadTimeout);
+                this.reloadTimeout = setTimeout(
+                    () => this.loadAllStatesFromStateStore(),
+                    200
+                );
+            });
+        }
+
+        this.setupReloadListeners();
+
     }
-}
+
+    setupReloadListeners() {
+        window.addEventListener('stateStoreReloading', () => this.handleStateStoreReloading());
+        window.addEventListener('stateStoreFullyReady', () => this.handleStateStoreReady());
+    }
+
+    handleStateStoreReloading() {
+        console.log('⏳ StateStore reloading, greying out...');
+        this.pendingReloads++;
+        this.isLoadingFromDatabase = true;
+        this.greyOut();
+        console.log(`📊 Pending reloads: ${this.pendingReloads}`);
+    }
+
+    async handleStateStoreReady() {
+        this.pendingReloads = Math.max(0, this.pendingReloads - 1);
+        console.log(`📊 Pending reloads remaining: ${this.pendingReloads}`);
+        
+        // Only ungrey when ALL pending reloads are done
+        if (this.pendingReloads === 0 && this.isLoadingFromDatabase) {
+            console.log('✅ All reloads complete, updating UI...');
+            await this.loadAllStatesFromStateStore();
+            this.isLoadingFromDatabase = false;
+            this.unGreyOut();
+        } else if (this.pendingReloads > 0) {
+            console.log(`⏳ Still waiting for ${this.pendingReloads} more reload(s)...`);
+        }
+    }
+
 
   setupEventListeners() {
     document.addEventListener("pointerdown", this.handlePointerDown.bind(this));
@@ -608,28 +641,63 @@ async init() {
     this.updateProgress(liftType);
   }
 
-  updateProgress(liftType) {
-    if (!window.stateStore) return;
+   /**
+    * Updates progress text and bar for a lift's workout session.
+    * Shows "x/y exercises completed" and fills progress bar proportionally.
+    * Bar turns green when complete. Hidden when x=0 or y=0.
+    * 
+    * @param {string} liftType - 'squat', 'bench', 'deadlift', or 'ohp'
+   */
+   updateProgress(liftType) {
+      if (!window.stateStore) return;
 
-    const { cycle, week } = window.stateStore.getCycleSettings();
-    const state = window.stateStore.getSessionCompletion(liftType, cycle, week);
+        const { cycle, week } = window.stateStore.getCycleSettings();
+        const state = window.stateStore.getSessionCompletion(liftType, cycle, week);
 
-    if (!state) return;
+        if (!state) return;
 
-    const completed =
-      state.mainSets.filter(Boolean).length +
-      state.supplementalSets.filter(Boolean).length +
-      state.accessories.filter(Boolean).length;
-    const total =
-      state.mainSets.length +
-      state.supplementalSets.length +
-      state.accessories.length;
+        const completed =
+            state.mainSets.filter(Boolean).length +
+            state.supplementalSets.filter(Boolean).length +
+            state.accessories.filter(Boolean).length;
+        const total =
+            state.mainSets.length +
+            state.supplementalSets.length +
+            state.accessories.length;
 
-    const progressEl = document.getElementById(`${liftType}-progress`);
-    if (progressEl) {
-      progressEl.textContent = `${completed}/${total} exercises completed`;
+        const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+        // Update text with percentage
+        const progressEl = document.getElementById(`${liftType}-progress`);
+        if (progressEl) {
+            if (total === 0) {
+                progressEl.textContent = 'No exercises';
+            } else {
+                progressEl.textContent = `${completed}/${total} exercises completed (${percentage}%)`;
+            }
+        }
+
+        // Update progress bar
+        const progressBarEl = document.getElementById(`${liftType}-progress-bar`);
+        const progressBarContainer = progressBarEl?.parentElement;
+        
+        if (progressBarEl && progressBarContainer) {
+            if (total === 0 || completed === 0) {
+                progressBarEl.style.width = '0%';
+                progressBarContainer.classList.add('empty');
+                progressBarEl.classList.remove('complete');
+            } else {
+                progressBarEl.style.width = `${percentage}%`;
+                progressBarContainer.classList.remove('empty');
+                
+                if (completed === total) {
+                    progressBarEl.classList.add('complete');
+                } else {
+                    progressBarEl.classList.remove('complete');
+                }
+            }
+        }
     }
-  }
 
   save = this.debounce(async (liftType) => {
     if (!window.stateStore?.state.user) return;

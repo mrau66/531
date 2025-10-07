@@ -191,6 +191,7 @@ permalink: "/app/stats/"
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  min-width: 0; 
 }
 
 .chart-section.half {
@@ -217,6 +218,33 @@ permalink: "/app/stats/"
 .chart-wrapper {
   position: relative;
   height: 300px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chart-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Custom scrollbar */
+.chart-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.chart-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.chart-wrapper::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.chart-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .chart-section:not(.half) .chart-wrapper {
@@ -266,6 +294,26 @@ permalink: "/app/stats/"
   .chart-wrapper {
     height: 250px !important;
   }
+  
+  .chart-section {
+    position: relative;
+  }
+
+  .chart-section::after {
+    content: '← Swipe to see more →';
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    color: #999;
+    margin-top: 8px;
+    font-style: italic;
+  }
+  
+  /* Remove hint for simple charts */
+  .chart-section.half::after {
+    display: none;
+  }
+
 }
 </style>
 
@@ -571,7 +619,8 @@ function updateWeeklyStreakChart(sessions) {
   if (!sessions || sessions.length === 0) return;
   
   const ctx = document.getElementById('weekly-streak-chart').getContext('2d');
-  
+
+    
   // Get last 3 months of weeks
   const today = new Date();
   const threeMonthsAgo = new Date(today);
@@ -619,6 +668,9 @@ function updateWeeklyStreakChart(sessions) {
   }
   
   if (weeklyStreakChart) weeklyStreakChart.destroy();
+
+  const isMobile = window.innerWidth < 768;
+
   
   weeklyStreakChart = new Chart(ctx, {
     type: 'bar',
@@ -630,7 +682,7 @@ function updateWeeklyStreakChart(sessions) {
         backgroundColor: weekColors,
         borderColor: weekColors.map(c => c.replace('0.8', '1')),
         borderWidth: 2,
-        maxBarThickness: 40
+        maxBarThickness: isMobile ? 30 : 40
       }]
     },
     options: {
@@ -643,16 +695,32 @@ function updateWeeklyStreakChart(sessions) {
             stepSize: 1,
             callback: function(value) {
               return value + ' lifts';
+            },
+            font: {
+              size: isMobile ? 10 : 12
             }
+
           },
           title: { 
             display: true, 
-            text: 'Unique Lifts per Week' 
+            text: 'Unique Lifts per Week',
+            font: {
+              size: isMobile ? 11 : 14
+            }
           }
         },
         x: {
+           ticks: {
+            maxRotation: isMobile ? 90 : 45,  // ✅ Vertical labels on mobile
+            minRotation: isMobile ? 90 : 0,
+            font: {
+              size: isMobile ? 9 : 11  // ✅ Smaller font on mobile
+            },
+            autoSkip: true,  // ✅ Skip some labels if needed
+            maxTicksLimit: isMobile ? 8 : 15  // ✅ Fewer ticks on mobile
+          },
           title: { 
-            display: true, 
+            display: !isMobile,  
             text: 'Weeks (Last 3 Months)' 
           }
         }
@@ -691,6 +759,7 @@ function updateWeeklyStreakChart(sessions) {
       }
     }
   });
+  
 }
 
 
