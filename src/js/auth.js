@@ -11,92 +11,117 @@ class AuthManager {
 
   async init() {
     try {
-      // Check if we're on the login page or app page
-      const isLoginPage = window.location.pathname === '/login/' || window.location.pathname === '/';
-      const isAppPage = window.location.pathname === '/app/';
+      const session = await this.checkSession();
+      const currentPage = this.getCurrentPage();
 
-      // Check if user is already logged in
-      const { data: { session } } = await supabase.auth.getSession()
-      this.hasCheckedSession = true;
-      
-      // Dispatch event that AuthManager has completed its initial check
-      window.dispatchEvent(new CustomEvent('authManagerReady', {
-        detail: { hasSession: !!session, user: session?.user }
-      }));
-      
       if (session) {
-        this.currentUser = session.user
-        
-        // If authenticated but on login page, redirect to app
-        if (isLoginPage) {
-          window.location.href = '/app'
-          return
-        }
-        
-        // If on app page and authenticated, initialize app features
-        if (isAppPage) {
-          await this.initializeApp()
-        }
+        await this.handleAuthenticatedUser(session, currentPage);
       } else {
-        this.currentUser = null
-        
-        // If not authenticated but trying to access app, redirect to login
-        if (isAppPage) {
-          window.location.href = '/login'
-          return
-        }
-
+        this.handleUnauthenticatedUser(currentPage);
       }
 
-      // Listen for auth changes
-      supabase.auth.onAuthStateChange(async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email || 'no user')
-        
-        if (event === 'SIGNED_IN' && session) {
-          console.log('User signed in, setting currentUser and redirecting')
-          this.currentUser = session.user
-          
-          // Dispatch custom event for other managers to listen to
-          window.dispatchEvent(new CustomEvent('userSignedIn', {
-            detail: { user: session.user }
-          }));
-          
-          // ONLY redirect if we're NOT already on an app page
-          const currentPath = window.location.pathname;
-          const isOnAppPage = currentPath.startsWith('/app/');
-          
-          if (!isOnAppPage) {
-            window.location.href = '/app'
-          }
-          // If already on an app page, don't redirect - just stay where we are
-          
-        } else if (event === 'SIGNED_OUT') {
-          console.log('User signed out, redirecting to login')
-          this.currentUser = null
-          
-          // Clean up state store
-          if (window.stateStore) {
-            window.stateStore.updateState({ user: null });
-          }
-          
-          // Dispatch custom event
-          window.dispatchEvent(new CustomEvent('userSignedOut'));
-          
-          window.location.href = '/login'
-        } else if (event === 'INITIAL_SESSION') {
-          console.log('Initial session check complete')
-          // Don't redirect on initial session check
-        }
-      })
+      this.setupAuthStateListener();
     } catch (error) {
-      console.error('Error initializing auth:', error);
-      this.hasCheckedSession = true;
-      
-      // Still dispatch the ready event even if there's an error
-      window.dispatchEvent(new CustomEvent('authManagerReady', {
-        detail: { hasSession: false, user: null, error }
-      }));
+      this.handleInitError(error);
     }
+  }
+
+  async checkSession() {
+    const { data: { session } } = await supabase.auth.getSession();
+    this.hasCheckedSession = true;
+
+    window.dispatchEvent(new CustomEvent('authManagerReady', {
+      detail: { hasSession: !!session, user: session?.user }
+    }));
+
+    return session;
+  }
+
+  getCurrentPage() {
+    const path = window.location.pathname;
+    return {
+      isLoginPage: path === '/login/' || path === '/',
+      isAppPage: path === '/app/',
+      path
+    };
+  }
+
+  async handleAuthenticatedUser(session, { isLoginPage, isAppPage }) {
+    this.currentUser = session.user;
+
+    if (isLoginPage) {
+      window.location.href = '/app';
+      return;
+    }
+
+    if (isAppPage) {
+      await this.initializeApp();
+    }
+  }
+
+  handleUnauthenticatedUser({ isAppPage }) {
+    this.currentUser = null;
+
+    if (isAppPage) {
+      window.location.href = '/login';
+    }
+  }
+
+  setupAuthStateListener() {
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth state changed:', event, session?.user?.email || 'no user');
+
+      switch (event) {
+        case 'SIGNED_IN':
+          await this.handleSignIn(session);
+          break;
+        case 'SIGNED_OUT':
+          this.handleSignOut();
+          break;
+        case 'INITIAL_SESSION':
+          console.log('Initial session check complete');
+          break;
+      }
+    });
+  }
+
+  async handleSignIn(session) {
+    if (!session) return;
+
+    console.log('User signed in, setting currentUser and redirecting');
+    this.currentUser = session.user;
+
+    window.dispatchEvent(new CustomEvent('userSignedIn', {
+      detail: { user: session.user }
+    }));
+
+    const currentPath = window.location.pathname;
+    const isOnAppPage = currentPath.startsWith('/app/');
+
+    if (!isOnAppPage) {
+      window.location.href = '/app';
+    }
+  }
+
+  handleSignOut() {
+    console.log('User signed out, redirecting to login');
+    this.currentUser = null;
+
+    if (window.stateStore) {
+      window.stateStore.updateState({ user: null });
+    }
+
+    window.dispatchEvent(new CustomEvent('userSignedOut'));
+    window.location.href = '/login';
+  }
+
+  handleInitError(error) {
+    console.error('Error initializing auth:', error);
+    this.hasCheckedSession = true;
+
+    window.dispatchEvent(new CustomEvent('authManagerReady', {
+      detail: { hasSession: false, user: null, error }
+    }));
   }
 
 
