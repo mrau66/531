@@ -3,3 +3,6 @@ _site/
 *.log
 .env
 .env.local
+
+# Test coverage
+coverage/
