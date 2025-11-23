@@ -21,7 +21,7 @@ export function createMockStateStore(initialState = {}) {
 
   const listeners = new Map();
 
-  return {
+  const store = {
     state: defaultState,
     listeners,
 
@@ -30,8 +30,27 @@ export function createMockStateStore(initialState = {}) {
       return path.split('.').reduce((obj, key) => obj?.[key], defaultState);
     }),
 
-    updateState: jest.fn((updates) => {
-      Object.assign(defaultState, updates);
+    updateState: jest.fn(function(updates) {
+      const prevState = { ...defaultState };
+
+      // Deep merge for nested objects
+      Object.keys(updates).forEach(key => {
+        if (typeof updates[key] === 'object' && !Array.isArray(updates[key]) && updates[key] !== null) {
+          defaultState[key] = { ...defaultState[key], ...updates[key] };
+        } else {
+          defaultState[key] = updates[key];
+        }
+      });
+
+      // Notify listeners
+      listeners.forEach((callbacks, path) => {
+        const currentValue = path.split('.').reduce((obj, key) => obj?.[key], defaultState);
+        const prevValue = path.split('.').reduce((obj, key) => obj?.[key], prevState);
+
+        if (JSON.stringify(currentValue) !== JSON.stringify(prevValue)) {
+          callbacks.forEach(callback => callback(currentValue, prevValue));
+        }
+      });
     }),
 
     subscribe: jest.fn((path, callback) => {
@@ -44,12 +63,16 @@ export function createMockStateStore(initialState = {}) {
       return () => listeners.get(path)?.delete(callback);
     }),
 
-    setTrainingMax: jest.fn((lift, value) => {
-      defaultState.trainingMaxes[lift] = parseFloat(value) || 0;
+    setTrainingMax: jest.fn(function(lift, value) {
+      store.updateState({
+        trainingMaxes: { ...defaultState.trainingMaxes, [lift]: parseFloat(value) || 0 }
+      });
     }),
 
-    setCycleSettings: jest.fn((cycle, week) => {
-      defaultState.cycleSettings = { cycle: parseInt(cycle) || 1, week: parseInt(week) || 1 };
+    setCycleSettings: jest.fn(function(cycle, week) {
+      store.updateState({
+        cycleSettings: { cycle: parseInt(cycle) || 1, week: parseInt(week) || 1 }
+      });
     }),
 
     setSessionCompletion: jest.fn((lift, cycle, week, data) => {
@@ -81,6 +104,8 @@ export function createMockStateStore(initialState = {}) {
     saveToDatabase: jest.fn(() => Promise.resolve()),
     loadFromDatabase: jest.fn(() => Promise.resolve())
   };
+
+  return store;
 }
 
 /**
