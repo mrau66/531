@@ -24,6 +24,8 @@
  */
 
 import { debounce } from './shared-init.js';
+import { SELECTORS, IDS, CLASSES, LIFTS } from './dom-selectors.js';
+import { TIMING } from './config.js';
 
 export class SessionStateManager {
   constructor(visualManager, progressTracker) {
@@ -49,7 +51,7 @@ export class SessionStateManager {
       } catch (error) {
         console.error(`Error saving ${liftType}:`, error);
       }
-    }, 1000);
+    }, TIMING.DEBOUNCE_SAVE);
   }
 
   // ===========================================
@@ -89,7 +91,7 @@ export class SessionStateManager {
     // Haptic feedback
     if (isUserInitiated && "vibrate" in navigator) {
       try {
-        navigator.vibrate(30);
+        navigator.vibrate(TIMING.HAPTIC_FEEDBACK);
       } catch (e) {
         // Silently ignore vibration errors
       }
@@ -133,7 +135,7 @@ export class SessionStateManager {
     // Haptic feedback
     if (isUserInitiated && "vibrate" in navigator) {
       try {
-        navigator.vibrate(30);
+        navigator.vibrate(TIMING.HAPTIC_FEEDBACK);
       } catch (e) {
         // Silently ignore vibration errors
       }
@@ -184,15 +186,15 @@ export class SessionStateManager {
 
     try {
       // Wait for render
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, TIMING.WAIT_RENDER));
 
-      for (const lift of ["squat", "bench", "deadlift", "ohp"]) {
+      for (const lift of LIFTS.ALL) {
         this.loadStateFromStore(lift);
         this.initializeCompletionArrays(lift, getLiftContainerFn);
       }
 
       this.visualManager.applyAllStatesToUI(
-        ["squat", "bench", "deadlift", "ohp"],
+        LIFTS.ALL,
         (lift) => {
           const { cycle, week } = window.stateStore.getCycleSettings();
           return window.stateStore.getSessionCompletion(lift, cycle, week);
@@ -225,13 +227,13 @@ export class SessionStateManager {
 
     // Count visible elements
     const mainSetCount = container.querySelectorAll(
-      `#${liftType}-main-sets .set-row:not([style*="display: none"])`
+      `#${IDS.mainSets(liftType)} ${SELECTORS.SET_ROW}:not([style*="display: none"])`
     ).length;
     const supplementalSetCount = container.querySelectorAll(
-      `#${liftType}-supplemental-sets .set-row:not([style*="display: none"])`
+      `#${IDS.supplementalSets(liftType)} ${SELECTORS.SET_ROW}:not([style*="display: none"])`
     ).length;
     const accessoryCount = container.querySelectorAll(
-      `#${liftType}-accessories .accessory-item`
+      `#${IDS.accessories(liftType)} ${SELECTORS.ACCESSORY_ITEM}`
     ).length;
 
     // Initialize arrays if needed
@@ -268,7 +270,7 @@ export class SessionStateManager {
 
   clear() {
     if (window.stateStore) {
-      ["squat", "bench", "deadlift", "ohp"].forEach((lift) => {
+      LIFTS.ALL.forEach((lift) => {
         const { cycle, week } = window.stateStore.getCycleSettings();
         window.stateStore.setSessionCompletion(lift, cycle, week, {
           mainSets: [],
@@ -278,8 +280,8 @@ export class SessionStateManager {
       });
     }
 
-    document.querySelectorAll(".completed").forEach((el) => {
-      el.classList.remove("completed");
+    document.querySelectorAll(`.${CLASSES.COMPLETED}`).forEach((el) => {
+      el.classList.remove(CLASSES.COMPLETED);
       this.visualManager.applyStyles(el, false);
     });
   }

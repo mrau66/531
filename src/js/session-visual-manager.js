@@ -18,6 +18,9 @@
  * - DOM elements with specific classes (.set-row, .accessory-item, etc.)
  */
 
+import { SELECTORS, CLASSES, IDS } from './dom-selectors.js';
+import { COLORS, TIMING } from './config.js';
+
 export class SessionVisualManager {
   constructor() {
     // No state needed - pure visual operations
@@ -28,21 +31,17 @@ export class SessionVisualManager {
   // ===========================================
 
   greyOut() {
-    const workoutAreas = document.querySelectorAll(
-      ".lift-workout, .workout-display, [data-tab]"
-    );
+    const workoutAreas = document.querySelectorAll(SELECTORS.WORKOUT_AREAS);
 
     workoutAreas.forEach((area) => {
       area.style.opacity = "0.2";
       area.style.pointerEvents = "none";
-      area.style.transition = "opacity 0.5s ease";
+      area.style.transition = `opacity ${TIMING.LOADING_TRANSITION / 1000}s ease`;
     });
   }
 
   unGreyOut() {
-    const workoutAreas = document.querySelectorAll(
-      ".lift-workout, .workout-display, [data-tab]"
-    );
+    const workoutAreas = document.querySelectorAll(SELECTORS.WORKOUT_AREAS);
 
     workoutAreas.forEach((area) => {
       area.style.opacity = "";
@@ -57,22 +56,22 @@ export class SessionVisualManager {
   applyStyles(element, isCompleted) {
     if (isCompleted) {
       element.style.cssText = `
-        background: #d4edda !important;
-        border-left: 4px solid #006400 !important;
+        background: ${COLORS.COMPLETED_BG} !important;
+        border-left: 4px solid ${COLORS.COMPLETED_BORDER} !important;
         opacity: 0.9 !important;
         transform: translateX(4px) !important;
         transition: all 0.2s ease !important;
       `;
 
       // Strike through text
-      element.querySelectorAll(".set-info, .weight, span").forEach((el) => {
+      element.querySelectorAll(`${SELECTORS.SET_INFO}, ${SELECTORS.WEIGHT}, span`).forEach((el) => {
         el.style.textDecoration = "line-through";
-        el.style.color = "#006400";
+        el.style.color = COLORS.COMPLETED_TEXT;
       });
 
       if (element.classList.contains("accessory-item")) {
         element.style.textDecoration = "line-through";
-        element.style.color = "#006400";
+        element.style.color = COLORS.COMPLETED_TEXT;
       }
     } else {
       element.style.cssText = "";
@@ -85,12 +84,12 @@ export class SessionVisualManager {
 
   toggleVisualState(element) {
     // Toggle visual state immediately for feedback
-    const isCompleted = element.classList.contains("completed");
-    element.classList.toggle("completed");
+    const isCompleted = element.classList.contains(CLASSES.COMPLETED);
+    element.classList.toggle(CLASSES.COMPLETED);
     this.applyStyles(element, !isCompleted);
 
     // Haptic feedback
-    if ("vibrate" in navigator) navigator.vibrate(30);
+    if ("vibrate" in navigator) navigator.vibrate(TIMING.HAPTIC_FEEDBACK);
   }
 
   // ===========================================
@@ -101,8 +100,8 @@ export class SessionVisualManager {
     if (!completionState || !container) return;
 
     // Clear existing states
-    container.querySelectorAll(".completed").forEach((el) => {
-      el.classList.remove("completed");
+    container.querySelectorAll(`.${CLASSES.COMPLETED}`).forEach((el) => {
+      el.classList.remove(CLASSES.COMPLETED);
       this.applyStyles(el, false);
     });
 
@@ -113,19 +112,19 @@ export class SessionVisualManager {
       );
       stateArray.forEach((isCompleted, index) => {
         if (elements[index] && isCompleted) {
-          elements[index].classList.add("completed");
+          elements[index].classList.add(CLASSES.COMPLETED);
           this.applyStyles(elements[index], true);
         }
       });
     };
 
-    applyToElements(`#${liftType}-main-sets .set-row`, completionState.mainSets);
+    applyToElements(`#${IDS.mainSets(liftType)} ${SELECTORS.SET_ROW}`, completionState.mainSets);
     applyToElements(
-      `#${liftType}-supplemental-sets .set-row`,
+      `#${IDS.supplementalSets(liftType)} ${SELECTORS.SET_ROW}`,
       completionState.supplementalSets
     );
     applyToElements(
-      `#${liftType}-accessories .accessory-item`,
+      `#${IDS.accessories(liftType)} ${SELECTORS.ACCESSORY_ITEM}`,
       completionState.accessories
     );
   }

@@ -22,6 +22,9 @@
  * - Window.stateStore for readiness checks
  */
 
+import { SELECTORS } from './dom-selectors.js';
+import { TIMING } from './config.js';
+
 export class SessionEventHandler {
   constructor(stateManager, visualManager, getCurrentLiftFn) {
     this.stateManager = stateManager;
@@ -63,16 +66,16 @@ export class SessionEventHandler {
     }
 
     const target =
-      e.target.closest(".set-row") ||
-      e.target.closest(".accessory-item") ||
-      e.target.closest(".tab-button");
+      e.target.closest(SELECTORS.SET_ROW) ||
+      e.target.closest(SELECTORS.ACCESSORY_ITEM) ||
+      e.target.closest(SELECTORS.TAB_BUTTON);
 
     if (!target) return;
 
     // Haptic feedback on any interaction
     if ("vibrate" in navigator) {
       try {
-        navigator.vibrate(30);
+        navigator.vibrate(TIMING.HAPTIC_FEEDBACK);
       } catch (err) {
         console.warn("Vibration not available", err);
       }
@@ -83,9 +86,7 @@ export class SessionEventHandler {
       target.classList.contains("set-row") ||
       target.classList.contains("accessory-item")
     ) {
-      const inWorkoutArea = target.closest(
-        ".workout-display, .lift-workout, .tab-content, [data-tab]"
-      );
+      const inWorkoutArea = target.closest(SELECTORS.WORKOUT_AREA_CONTEXT);
       if (!inWorkoutArea) return;
 
       // Prevent double processing with element-specific check
@@ -96,7 +97,7 @@ export class SessionEventHandler {
 
       if (
         this.lastProcessed === elementId &&
-        now - this.lastProcessedTime < 500
+        now - this.lastProcessedTime < TIMING.DOUBLE_CLICK_PREVENTION
       ) {
         return;
       }
@@ -113,7 +114,7 @@ export class SessionEventHandler {
       target.style.transform = "scale(0.98)";
       setTimeout(() => {
         target.style.transform = "";
-      }, 150);
+      }, TIMING.ANIMATION_DURATION);
     }
 
     // Handle the interaction

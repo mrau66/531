@@ -22,6 +22,9 @@
  * - DOM elements: #${lift}-progress, #${lift}-progress-bar
  */
 
+import { IDS, CLASSES, LIFTS } from './dom-selectors.js';
+import { UI_TEXT } from './config.js';
+
 export class SessionProgressTracker {
   // ===========================================
   // PROGRESS CALCULATION
@@ -55,11 +58,11 @@ export class SessionProgressTracker {
   // ===========================================
 
   updateProgressText(liftType, stats) {
-    const progressEl = document.getElementById(`${liftType}-progress`);
+    const progressEl = document.getElementById(IDS.progress(liftType));
     if (!progressEl) return;
 
     if (!stats || stats.total === 0) {
-      progressEl.textContent = "No exercises";
+      progressEl.textContent = UI_TEXT.NO_EXERCISES;
     } else {
       const { completed, total, percentage } = stats;
       progressEl.textContent = `${completed}/${total} exercises completed (${percentage}%)`;
@@ -67,23 +70,23 @@ export class SessionProgressTracker {
   }
 
   updateProgressBar(liftType, stats) {
-    const progressBarEl = document.getElementById(`${liftType}-progress-bar`);
+    const progressBarEl = document.getElementById(IDS.progressBar(liftType));
     const progressBarContainer = progressBarEl?.parentElement;
 
     if (!progressBarEl || !progressBarContainer) return;
 
     if (!stats || stats.total === 0 || stats.completed === 0) {
       progressBarEl.style.width = "0%";
-      progressBarContainer.classList.add("empty");
-      progressBarEl.classList.remove("complete");
+      progressBarContainer.classList.add(CLASSES.EMPTY);
+      progressBarEl.classList.remove(CLASSES.COMPLETE);
     } else {
       progressBarEl.style.width = `${stats.percentage}%`;
-      progressBarContainer.classList.remove("empty");
+      progressBarContainer.classList.remove(CLASSES.EMPTY);
 
       if (stats.completed === stats.total) {
-        progressBarEl.classList.add("complete");
+        progressBarEl.classList.add(CLASSES.COMPLETE);
       } else {
-        progressBarEl.classList.remove("complete");
+        progressBarEl.classList.remove(CLASSES.COMPLETE);
       }
     }
   }
@@ -112,7 +115,7 @@ export class SessionProgressTracker {
 
     const summary = { total: 0, completed: 0, byLift: {} };
 
-    ["squat", "bench", "deadlift", "ohp"].forEach((lift) => {
+    LIFTS.ALL.forEach((lift) => {
       const stats = this.getProgressStats(lift);
 
       if (stats) {
