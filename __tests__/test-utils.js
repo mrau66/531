@@ -99,6 +99,29 @@ export function createMockStateStore(initialState = {}) {
 
     hasTrainingMaxes: jest.fn(() => Object.values(defaultState.trainingMaxes).some(tm => tm > 0)),
 
+    getAccessories: jest.fn((lift) => [...(defaultState.accessories[lift] || [])]),
+
+    setAccessories: jest.fn(function(lift, accessories) {
+      store.updateState({
+        accessories: { ...defaultState.accessories, [lift]: [...accessories] }
+      });
+    }),
+
+    increaseTrainingMaxes: jest.fn(function() {
+      const tm = defaultState.trainingMaxes;
+      store.updateState({
+        trainingMaxes: {
+          squat: (tm.squat || 0) + 2.5,
+          bench: (tm.bench || 0) + 2.5,
+          deadlift: (tm.deadlift || 0) + 2.5,
+          ohp: (tm.ohp || 0) + 1.25
+        }
+      });
+    }),
+
+    saveTrainingMaxes: jest.fn(() => Promise.resolve()),
+    saveCycleSettings: jest.fn(() => Promise.resolve()),
+    saveAccessories: jest.fn(() => Promise.resolve()),
     saveToLocalStorage: jest.fn(),
     loadFromLocalStorage: jest.fn(),
     saveToDatabase: jest.fn(() => Promise.resolve()),
