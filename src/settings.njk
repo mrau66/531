@@ -93,9 +93,9 @@ permalink: "/settings/"
                     <div class="progression-selector">
                         <label for="progression-rate-select">Progression Rate:</label>
                         <select id="progression-rate-select">
-                            <option value="conservative">Conservative (+2.5 lbs / +1.25 lbs OHP) - Recommended for beginners</option>
-                            <option value="standard">Standard (+5 lbs / +2.5 lbs OHP) - Original 531 x 365 program</option>
-                            <option value="aggressive">Aggressive (+10 lbs / +5 lbs OHP) - Advanced lifters only</option>
+                            <option value="conservative">Conservative (+2.5 kg / +1.25 kg OHP) - Recommended for beginners</option>
+                            <option value="standard">Standard (+5 kg / +2.5 kg OHP) - Original 531 x 365 program</option>
+                            <option value="aggressive">Aggressive (+10 kg / +5 kg OHP) - Advanced lifters only</option>
                         </select>
                         <p class="progression-explanation">
                             This setting determines how much weight is added to your training maxes after each cycle.
@@ -106,7 +106,40 @@ permalink: "/settings/"
             </div>
         </div>
 
-        <!-- SECTION 3: Cycle & Week Selection -->
+        <!-- SECTION 3: Rep Scheme -->
+        <div class="settings-section">
+            <div class="section-header">
+                <h3>Rep Scheme</h3>
+                <button id="save-rep-scheme-btn" class="save-btn" type="button">
+                    <span class="save-icon">💾</span>
+                    <span class="save-text">Save Rep Scheme</span>
+                </button>
+            </div>
+
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h4>Which Rep Scheme Do You Want to Use?</h4>
+                    <button class="collapse-btn" data-target="rep-scheme-content" type="button">
+                        <span class="collapse-icon">−</span>
+                    </button>
+                </div>
+                <div class="collapsible-content" id="rep-scheme-content">
+                    <div class="rep-scheme-selector">
+                        <label for="rep-scheme-select">Rep Scheme:</label>
+                        <select id="rep-scheme-select">
+                            <option value="standard">Standard 531 (5/3/1) - AMRAP on final set each week</option>
+                            <option value="fives_pro">5s PRO - Straight sets of 5 reps (no AMRAP)</option>
+                        </select>
+                        <p class="rep-scheme-explanation">
+                            <strong>Standard 531:</strong> Traditional 531 with different reps each week (Week 1: 5s, Week 2: 3s, Week 3: 1s) and AMRAP on the last set.<br><br>
+                            <strong>5s PRO:</strong> Straight sets of 5 reps at prescribed percentages with no AMRAP sets. Popular when doing high volume supplemental/accessory work.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: Cycle & Week Selection -->
         <div class="settings-section">
             <div class="section-header">
                 <h3>Cycle & Week Position</h3>
@@ -147,7 +180,7 @@ permalink: "/settings/"
             </div>
         </div>
 
-        <!-- SECTION 4: Accessory Exercises -->
+        <!-- SECTION 5: Accessory Exercises -->
         <div class="settings-section">
             <div class="section-header">
                 <h3>Accessory Exercise Selection</h3>
@@ -315,6 +348,42 @@ permalink: "/settings/"
 }
 
 .progression-explanation {
+    font-size: 0.85em;
+    color: #6c757d;
+    line-height: 1.6;
+    margin: 0;
+    padding: 12px;
+    background: white;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.rep-scheme-selector {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.rep-scheme-selector label {
+    font-weight: 500;
+    font-size: 0.9em;
+    color: var(--dark-gray-color);
+    display: block;
+    margin-bottom: 12px;
+}
+
+.rep-scheme-selector select {
+    width: 100%;
+    background: white;
+    border: 1.5px solid #dee2e6;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.rep-scheme-explanation {
     font-size: 0.85em;
     color: #6c757d;
     line-height: 1.6;

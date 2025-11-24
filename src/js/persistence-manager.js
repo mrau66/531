@@ -230,7 +230,7 @@ export class PersistenceManager {
   async loadAccessories() {
     const { data, error } = await supabase
       .from("user_settings")
-      .select("accessories, progression_rate")
+      .select("accessories, progression_rate, rep_scheme")
       .eq("user_id", this.coreStore.state.user.id)
       .single();
 
@@ -242,6 +242,9 @@ export class PersistenceManager {
     }
     if (data?.progression_rate) {
       updates.progressionRate = data.progression_rate;
+    }
+    if (data?.rep_scheme) {
+      updates.repScheme = data.rep_scheme;
     }
 
     if (Object.keys(updates).length > 0) {
@@ -283,6 +286,19 @@ export class PersistenceManager {
       {
         user_id: this.coreStore.state.user.id,
         progression_rate: this.coreStore.state.progressionRate,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id" }
+    );
+
+    if (error) throw error;
+  }
+
+  async saveRepScheme() {
+    const { error } = await supabase.from("user_settings").upsert(
+      {
+        user_id: this.coreStore.state.user.id,
+        rep_scheme: this.coreStore.state.repScheme,
         updated_at: new Date().toISOString(),
       },
       { onConflict: "user_id" }

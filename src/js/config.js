@@ -80,23 +80,23 @@ export const PROGRESSION = {
   OHP_TYPE: 'ohp',
 };
 
-// Progression rate presets
+// Progression rate presets (all values in kg)
 export const PROGRESSION_PRESETS = {
   conservative: {
     name: 'Conservative',
-    description: 'Slower progression, ideal for beginners or injury prevention',
+    description: 'Slower progression (+2.5 kg / +1.25 kg OHP), ideal for beginners or injury prevention',
     main: 2.5,
     ohp: 1.25,
   },
   standard: {
     name: 'Standard (Original 531 x 365)',
-    description: 'Original program progression as written',
+    description: 'Original program progression (+5 kg / +2.5 kg OHP) as written',
     main: 5.0,
     ohp: 2.5,
   },
   aggressive: {
     name: 'Aggressive',
-    description: 'Faster progression for advanced lifters',
+    description: 'Faster progression (+10 kg / +5 kg OHP) for advanced lifters',
     main: 10.0,
     ohp: 5.0,
   },
@@ -106,7 +106,8 @@ export const PROGRESSION_PRESETS = {
 // WEEK CONFIGURATIONS (Standard 531)
 // ===========================================
 
-export const WEEK_CONFIGS = {
+// Standard 531 - Traditional with AMRAP sets
+export const WEEK_CONFIGS_STANDARD = {
   1: [
     { percentage: 65, reps: 5, isAmrap: false },
     { percentage: 75, reps: 5, isAmrap: false },
@@ -122,6 +123,42 @@ export const WEEK_CONFIGS = {
     { percentage: 85, reps: 3, isAmrap: false },
     { percentage: 95, reps: 1, isAmrap: true }  // 1+ AMRAP set
   ]
+};
+
+// 5s PRO - Straight sets of 5 (no AMRAP)
+export const WEEK_CONFIGS_5S_PRO = {
+  1: [
+    { percentage: 65, reps: 5, isAmrap: false },
+    { percentage: 75, reps: 5, isAmrap: false },
+    { percentage: 85, reps: 5, isAmrap: false }  // Straight 5 reps
+  ],
+  2: [
+    { percentage: 70, reps: 5, isAmrap: false },
+    { percentage: 80, reps: 5, isAmrap: false },
+    { percentage: 90, reps: 5, isAmrap: false }  // Straight 5 reps
+  ],
+  3: [
+    { percentage: 75, reps: 5, isAmrap: false },
+    { percentage: 85, reps: 5, isAmrap: false },
+    { percentage: 95, reps: 5, isAmrap: false }  // Straight 5 reps
+  ]
+};
+
+// Default to standard 531 for backward compatibility
+export const WEEK_CONFIGS = WEEK_CONFIGS_STANDARD;
+
+// Rep scheme presets
+export const REP_SCHEME_PRESETS = {
+  standard: {
+    name: 'Standard 531 (5/3/1)',
+    description: 'Traditional 531 with AMRAP sets on the final set each week',
+    configs: WEEK_CONFIGS_STANDARD,
+  },
+  fives_pro: {
+    name: '5s PRO',
+    description: 'Straight sets of 5 reps at prescribed percentages (no AMRAP)',
+    configs: WEEK_CONFIGS_5S_PRO,
+  },
 };
 
 // ===========================================

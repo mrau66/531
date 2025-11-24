@@ -15,6 +15,7 @@
  * - trainingMaxes: {squat, bench, deadlift, ohp}
  * - cycleSettings: {cycle, week}
  * - progressionRate: 'conservative' | 'standard' | 'aggressive'
+ * - repScheme: 'standard' | 'fives_pro'
  * - accessories: {lift: [exercises]}
  * - sessionCompletion: Keyed by "lift_cycle_week"
  * - user: Current authenticated user
@@ -29,6 +30,7 @@ export class CoreStateStore {
       trainingMaxes: { squat: 0, bench: 0, deadlift: 0, ohp: 0 },
       cycleSettings: { cycle: 1, week: 1 },
       progressionRate: 'conservative',  // 'conservative', 'standard', or 'aggressive'
+      repScheme: 'standard',  // 'standard' (5/3/1) or 'fives_pro' (5s PRO)
       accessories: { squat: [], bench: [], deadlift: [], ohp: [] },
       sessionCompletion: {},
       user: null,

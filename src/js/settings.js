@@ -25,6 +25,7 @@ class SettingsManager {
         window.stateStore.subscribe('trainingMaxes', (tm) => this.updateTrainingMaxInputs(tm));
         window.stateStore.subscribe('cycleSettings', (cs) => this.updateCycleSettingsInputs(cs));
         window.stateStore.subscribe('progressionRate', (rate) => this.updateProgressionRateInput(rate));
+        window.stateStore.subscribe('repScheme', (scheme) => this.updateRepSchemeInput(scheme));
         window.stateStore.subscribe('accessories', (acc) => {
             this.applyAccessorySettingsToUI(acc);
             this.updateSelectionCounts(acc);
@@ -47,6 +48,12 @@ class SettingsManager {
         const progressionSelect = document.getElementById('progression-rate-select');
         progressionSelect?.addEventListener('change', (e) => {
             window.stateStore.updateState({ progressionRate: e.target.value });
+        });
+
+        // Rep scheme
+        const repSchemeSelect = document.getElementById('rep-scheme-select');
+        repSchemeSelect?.addEventListener('change', (e) => {
+            window.stateStore.updateState({ repScheme: e.target.value });
         });
 
         // Cycle settings
@@ -85,6 +92,7 @@ class SettingsManager {
         const buttons = [
             { id: 'save-training-maxes-btn', fn: () => window.stateStore.saveTrainingMaxes() },
             { id: 'save-progression-btn', fn: () => window.stateStore.saveProgressionRate() },
+            { id: 'save-rep-scheme-btn', fn: () => window.stateStore.saveRepScheme() },
             { id: 'save-cycle-settings-btn', fn: () => window.stateStore.saveCycleSettings() },
             { id: 'save-accessories-btn', fn: () => window.stateStore.saveAccessories() },
             { id: 'save-all-settings-btn', fn: () => window.stateStore.saveToDatabase() }
@@ -126,6 +134,7 @@ class SettingsManager {
         const state = window.stateStore.getState();
         this.updateTrainingMaxInputs(state.trainingMaxes);
         this.updateProgressionRateInput(state.progressionRate);
+        this.updateRepSchemeInput(state.repScheme);
         this.updateCycleSettingsInputs(state.cycleSettings);
         this.applyAccessorySettingsToUI(state.accessories);
         this.updateSelectionCounts(state.accessories);
@@ -146,6 +155,13 @@ class SettingsManager {
         const select = document.getElementById('progression-rate-select');
         if (select && progressionRate && select.value !== progressionRate) {
             select.value = progressionRate;
+        }
+    }
+
+    updateRepSchemeInput(repScheme) {
+        const select = document.getElementById('rep-scheme-select');
+        if (select && repScheme && select.value !== repScheme) {
+            select.value = repScheme;
         }
     }
 

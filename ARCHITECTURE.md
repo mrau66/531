@@ -791,6 +791,50 @@ Each cycle has 3 weeks with different percentages following the standard 531 pro
 
 **AMRAP sets** are indicated with a "+" sign and an orange badge in the UI. These are critical for gauging progress and determining if your training max needs adjustment.
 
+### Rep Scheme Options
+
+The app supports two rep scheme methodologies, configurable in **Settings → Rep Scheme**:
+
+#### Standard 531 (5/3/1) - Default
+
+Traditional 531 with AMRAP sets on the final set each week:
+- Week 1: 5/5/5+ reps
+- Week 2: 3/3/3+ reps
+- Week 3: 5/3/1+ reps
+
+This is the classic Jim Wendler approach where you push the final AMRAP set to gauge progress and autoregulate intensity.
+
+#### 5s PRO (5s Progression)
+
+Straight sets of 5 reps at prescribed percentages with no AMRAP sets:
+- Week 1: 5/5/5 reps (65%, 75%, 85%)
+- Week 2: 5/5/5 reps (70%, 80%, 90%)
+- Week 3: 5/5/5 reps (75%, 85%, 95%)
+
+**When to use 5s PRO:**
+- When doing high-volume supplemental or accessory work
+- To reduce CNS fatigue and manage recovery
+- For template variations that don't require AMRAP testing
+- During deload or recovery phases
+
+```javascript
+// From config.js
+export const REP_SCHEME_PRESETS = {
+  standard: {
+    name: 'Standard 531 (5/3/1)',
+    description: 'Traditional 531 with AMRAP sets on the final set each week',
+    configs: WEEK_CONFIGS_STANDARD,
+  },
+  fives_pro: {
+    name: '5s PRO',
+    description: 'Straight sets of 5 reps at prescribed percentages (no AMRAP)',
+    configs: WEEK_CONFIGS_5S_PRO,
+  },
+};
+```
+
+**Implementation:** The workout manager subscribes to `repScheme` state changes and dynamically swaps the week configurations when the user changes their selection. UI updates immediately to show/hide AMRAP indicators.
+
 ### Supplemental Work (FSL - First Set Last)
 
 After main sets, perform 5 sets using the first set percentage:
@@ -811,9 +855,9 @@ After each cycle, training maxes increase based on the user's selected progressi
 
 | Preset | Main Lifts | OHP | Description |
 |--------|-----------|-----|-------------|
-| **Conservative** (default) | +2.5 lbs | +1.25 lbs | Recommended for beginners and injury prevention |
-| **Standard** | +5.0 lbs | +2.5 lbs | Original 531 x 365 program |
-| **Aggressive** | +10.0 lbs | +5.0 lbs | Advanced lifters only |
+| **Conservative** (default) | +2.5 kg | +1.25 kg | Recommended for beginners and injury prevention |
+| **Standard** | +5.0 kg | +2.5 kg | Original 531 x 365 program |
+| **Aggressive** | +10.0 kg | +5.0 kg | Advanced lifters only |
 
 ```javascript
 // From config.js
@@ -828,7 +872,7 @@ Users can select their preferred progression rate in the **Settings** page under
 
 ### Weight Calculation
 
-All weights are rounded to nearest 0.5 lbs (using half-pound plates):
+All weights are rounded to nearest 0.5 kg:
 
 ```javascript
 function calculateWeight(trainingMax, percentage) {
@@ -836,10 +880,10 @@ function calculateWeight(trainingMax, percentage) {
 }
 
 // Example:
-// Training Max: 315 lbs
+// Training Max: 140 kg
 // Percentage: 85%
-// Calculation: 315 * 0.85 = 267.75
-// Rounded: Math.round(267.75 * 2) / 2 = Math.round(535.5) / 2 = 536 / 2 = 268 lbs
+// Calculation: 140 * 0.85 = 119
+// Rounded: Math.round(119 * 2) / 2 = Math.round(238) / 2 = 238 / 2 = 119 kg
 ```
 
 ### Accessory Exercises
