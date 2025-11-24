@@ -2,7 +2,7 @@
  * Workout Manager
  */
 import { ModuleInitializer, DebugLogger } from './shared-init.js';
-import { WEEK_CONFIGS, CYCLE_CONFIGS } from './config.js';
+import { WEEK_CONFIGS, CYCLE_CONFIGS, REP_SCHEME_PRESETS } from './config.js';
 
 class WorkoutManager {
     constructor() {
@@ -11,7 +11,7 @@ class WorkoutManager {
         this.liftType = this.detectLiftType();
         // Use imported configs from config.js
         this.cycleConfigs = CYCLE_CONFIGS;
-        this.weekConfigs = WEEK_CONFIGS;
+        this.weekConfigs = WEEK_CONFIGS;  // Default, will be updated based on repScheme
         this.init();
     }
 
@@ -45,6 +45,14 @@ class WorkoutManager {
         window.stateStore.subscribe('trainingMaxes', () => this.updateWorkouts());
         window.stateStore.subscribe('cycleSettings', () => this.updateAll());
         window.stateStore.subscribe('accessories', () => this.updateAccessories());
+        window.stateStore.subscribe('repScheme', (repScheme) => {
+            // Update week configs based on selected rep scheme
+            const preset = REP_SCHEME_PRESETS[repScheme];
+            if (preset) {
+                this.weekConfigs = preset.configs;
+                this.updateWorkouts();  // Re-render workouts with new rep scheme
+            }
+        });
     }
 
     updateAll() {
