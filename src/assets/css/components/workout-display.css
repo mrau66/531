@@ -350,3 +350,61 @@
     }
 }
 
+/* Plate Calculator Display */
+.plate-display {
+    width: 100%;
+    padding: 8px 12px;
+    margin-top: 8px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    font-size: 0.85em;
+    color: var(--lighter-gray-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.plates-label {
+    font-weight: 600;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-size: 0.75em;
+    letter-spacing: 0.5px;
+}
+
+.plates-text {
+    font-weight: 500;
+    color: var(--dark-gray-color);
+    font-family: 'Courier New', monospace;
+}
+
+/* Update set-row to allow wrapping for plate display */
+.set-row {
+    flex-wrap: wrap;
+}
+
+/* Completed state for plate display */
+.set-row.completed .plate-display {
+    opacity: 0.6;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    border-color: var(--completed-border);
+}
+
+.set-row.completed .plates-text {
+    text-decoration: line-through;
+}
+
+/* Mobile plate display */
+@media (max-width: 768px) {
+    .plate-display {
+        padding: 6px 10px;
+        font-size: 0.8em;
+        margin-top: 6px;
+    }
+
+    .plates-label {
+        font-size: 0.7em;
+    }
+}
+

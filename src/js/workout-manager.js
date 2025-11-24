@@ -3,6 +3,7 @@
  */
 import { ModuleInitializer, DebugLogger } from './shared-init.js';
 import { WEEK_CONFIGS, CYCLE_CONFIGS, REP_SCHEME_PRESETS } from './config.js';
+import { calculatePlates, BAR_WEIGHTS } from './plate-calculator.js';
 
 class WorkoutManager {
     constructor() {
@@ -207,6 +208,29 @@ class WorkoutManager {
             row.classList.remove('amrap-set');
             const badge = row.querySelector('.amrap-badge');
             if (badge) badge.remove();
+        }
+
+        // Add plate calculator display
+        this.updatePlateDisplay(row, weight);
+    }
+
+    updatePlateDisplay(row, weight) {
+        // Calculate plates needed
+        const plateResult = calculatePlates(weight, BAR_WEIGHTS.STANDARD);
+
+        // Find or create plate display element
+        let plateDisplay = row.querySelector('.plate-display');
+        if (!plateDisplay) {
+            plateDisplay = document.createElement('div');
+            plateDisplay.className = 'plate-display';
+            row.appendChild(plateDisplay);
+        }
+
+        // Update plate display content
+        if (plateResult.plates.length === 0) {
+            plateDisplay.innerHTML = '<span class="plates-text">Bar only (20 kg)</span>';
+        } else {
+            plateDisplay.innerHTML = `<span class="plates-label">Per side:</span> <span class="plates-text">${plateResult.message}</span>`;
         }
     }
 
