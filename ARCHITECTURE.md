@@ -772,22 +772,24 @@ The program follows Jim Wendler's 531 methodology with 12 cycles:
 
 ### Week Structure (3 weeks per cycle)
 
-Each cycle has 3 weeks with different percentages:
+Each cycle has 3 weeks with different percentages following the standard 531 progression:
 
 **Week 1:**
 - Set 1: 65% × 5 reps
 - Set 2: 75% × 5 reps
-- Set 3: 85% × 5+ reps (AMRAP - As Many Reps As Possible)
+- Set 3: 85% × 5+ reps ⭐ **AMRAP** (As Many Reps As Possible)
 
 **Week 2:**
 - Set 1: 70% × 3 reps
 - Set 2: 80% × 3 reps
-- Set 3: 90% × 3+ reps (AMRAP)
+- Set 3: 90% × 3+ reps ⭐ **AMRAP**
 
 **Week 3:**
 - Set 1: 75% × 5 reps
 - Set 2: 85% × 3 reps
-- Set 3: 95% × 1+ reps (AMRAP)
+- Set 3: 95% × 1+ reps ⭐ **AMRAP**
+
+**AMRAP sets** are indicated with a "+" sign and an orange badge in the UI. These are critical for gauging progress and determining if your training max needs adjustment.
 
 ### Supplemental Work (FSL - First Set Last)
 
@@ -803,18 +805,26 @@ After main sets, perform 5 sets using the first set percentage:
 
 ### Training Max Progression
 
-After each cycle, training maxes increase:
+After each cycle, training maxes increase based on the user's selected progression rate:
 
-- **Squat, Bench, Deadlift:** +2.5 lbs per cycle
-- **Overhead Press:** +1.25 lbs per cycle
+**Progression Presets** (configurable in settings):
+
+| Preset | Main Lifts | OHP | Description |
+|--------|-----------|-----|-------------|
+| **Conservative** (default) | +2.5 lbs | +1.25 lbs | Recommended for beginners and injury prevention |
+| **Standard** | +5.0 lbs | +2.5 lbs | Original 531 x 365 program |
+| **Aggressive** | +10.0 lbs | +5.0 lbs | Advanced lifters only |
 
 ```javascript
 // From config.js
-export const PROGRESSION = {
-  MAIN_LIFTS: 2.5,      // Squat, Bench, Deadlift
-  ACCESSORY_LIFTS: 1.25 // OHP
+export const PROGRESSION_PRESETS = {
+  conservative: { main: 2.5, ohp: 1.25 },
+  standard: { main: 5.0, ohp: 2.5 },      // Original program
+  aggressive: { main: 10.0, ohp: 5.0 },
 };
 ```
+
+Users can select their preferred progression rate in the **Settings** page under "Training Max Progression Rate."
 
 ### Weight Calculation
 

@@ -72,7 +72,41 @@ permalink: "/settings/"
             </div>
         </div>
 
-        <!-- SECTION 2: Cycle & Week Selection -->
+        <!-- SECTION 2: Progression Rate -->
+        <div class="settings-section">
+            <div class="section-header">
+                <h3>Training Max Progression Rate</h3>
+                <button id="save-progression-btn" class="save-btn" type="button">
+                    <span class="save-icon">💾</span>
+                    <span class="save-text">Save Progression</span>
+                </button>
+            </div>
+
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h4>How Fast Should Your TMs Increase?</h4>
+                    <button class="collapse-btn" data-target="progression-content" type="button">
+                        <span class="collapse-icon">−</span>
+                    </button>
+                </div>
+                <div class="collapsible-content" id="progression-content">
+                    <div class="progression-selector">
+                        <label for="progression-rate-select">Progression Rate:</label>
+                        <select id="progression-rate-select">
+                            <option value="conservative">Conservative (+2.5 lbs / +1.25 lbs OHP) - Recommended for beginners</option>
+                            <option value="standard">Standard (+5 lbs / +2.5 lbs OHP) - Original 531 x 365 program</option>
+                            <option value="aggressive">Aggressive (+10 lbs / +5 lbs OHP) - Advanced lifters only</option>
+                        </select>
+                        <p class="progression-explanation">
+                            This setting determines how much weight is added to your training maxes after each cycle.
+                            Conservative progression reduces injury risk and is ideal for long-term gains.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Cycle & Week Selection -->
         <div class="settings-section">
             <div class="section-header">
                 <h3>Cycle & Week Position</h3>
@@ -113,7 +147,7 @@ permalink: "/settings/"
             </div>
         </div>
 
-        <!-- SECTION 3: Accessory Exercises -->
+        <!-- SECTION 4: Accessory Exercises -->
         <div class="settings-section">
             <div class="section-header">
                 <h3>Accessory Exercise Selection</h3>
@@ -253,6 +287,42 @@ permalink: "/settings/"
     padding: 12px 16px;
     border-radius: 8px;
     font-size: 14px;
+}
+
+.progression-selector {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.progression-selector label {
+    font-weight: 500;
+    font-size: 0.9em;
+    color: var(--dark-gray-color);
+    display: block;
+    margin-bottom: 12px;
+}
+
+.progression-selector select {
+    width: 100%;
+    background: white;
+    border: 1.5px solid #dee2e6;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.progression-explanation {
+    font-size: 0.85em;
+    color: #6c757d;
+    line-height: 1.6;
+    margin: 0;
+    padding: 12px;
+    background: white;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
 }
 
 .save-all-btn {

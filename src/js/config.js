@@ -71,7 +71,7 @@ export const COLORS = {
 // ===========================================
 
 export const PROGRESSION = {
-  // Weight increments per cycle
+  // Weight increments per cycle (default: conservative)
   MAIN_LIFTS: 2.5,   // Squat, Bench, Deadlift
   OHP: 1.25,          // Overhead Press
 
@@ -80,25 +80,47 @@ export const PROGRESSION = {
   OHP_TYPE: 'ohp',
 };
 
+// Progression rate presets
+export const PROGRESSION_PRESETS = {
+  conservative: {
+    name: 'Conservative',
+    description: 'Slower progression, ideal for beginners or injury prevention',
+    main: 2.5,
+    ohp: 1.25,
+  },
+  standard: {
+    name: 'Standard (Original 531 x 365)',
+    description: 'Original program progression as written',
+    main: 5.0,
+    ohp: 2.5,
+  },
+  aggressive: {
+    name: 'Aggressive',
+    description: 'Faster progression for advanced lifters',
+    main: 10.0,
+    ohp: 5.0,
+  },
+};
+
 // ===========================================
-// WEEK CONFIGURATIONS
+// WEEK CONFIGURATIONS (Standard 531)
 // ===========================================
 
 export const WEEK_CONFIGS = {
   1: [
-    { percentage: 65, reps: 5 },
-    { percentage: 75, reps: 5 },
-    { percentage: 85, reps: 5 }
+    { percentage: 65, reps: 5, isAmrap: false },
+    { percentage: 75, reps: 5, isAmrap: false },
+    { percentage: 85, reps: 5, isAmrap: true }  // 5+ AMRAP set
   ],
   2: [
-    { percentage: 70, reps: 5 },
-    { percentage: 80, reps: 5 },
-    { percentage: 90, reps: 5 }
+    { percentage: 70, reps: 3, isAmrap: false },
+    { percentage: 80, reps: 3, isAmrap: false },
+    { percentage: 90, reps: 3, isAmrap: true }  // 3+ AMRAP set
   ],
   3: [
-    { percentage: 75, reps: 5 },
-    { percentage: 85, reps: 5 },
-    { percentage: 95, reps: 5 }
+    { percentage: 75, reps: 5, isAmrap: false },
+    { percentage: 85, reps: 3, isAmrap: false },
+    { percentage: 95, reps: 1, isAmrap: true }  // 1+ AMRAP set
   ]
 };
 

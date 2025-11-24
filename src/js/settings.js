@@ -24,6 +24,7 @@ class SettingsManager {
     setupSubscriptions() {
         window.stateStore.subscribe('trainingMaxes', (tm) => this.updateTrainingMaxInputs(tm));
         window.stateStore.subscribe('cycleSettings', (cs) => this.updateCycleSettingsInputs(cs));
+        window.stateStore.subscribe('progressionRate', (rate) => this.updateProgressionRateInput(rate));
         window.stateStore.subscribe('accessories', (acc) => {
             this.applyAccessorySettingsToUI(acc);
             this.updateSelectionCounts(acc);
@@ -42,17 +43,23 @@ class SettingsManager {
             }
         });
 
+        // Progression rate
+        const progressionSelect = document.getElementById('progression-rate-select');
+        progressionSelect?.addEventListener('change', (e) => {
+            window.stateStore.updateState({ progressionRate: e.target.value });
+        });
+
         // Cycle settings
         const cycleSelect = document.getElementById('cycle-select');
         const weekSelect = document.getElementById('week-select');
-        
+
         const updateCycle = () => {
             const cycle = parseInt(cycleSelect?.value || 1);
             const week = parseInt(weekSelect?.value || 1);
             window.stateStore.setCycleSettings(cycle, week);
             // this.hasUnsavedChanges = true;
         };
-        
+
         cycleSelect?.addEventListener('change', updateCycle);
         weekSelect?.addEventListener('change', updateCycle);
 
@@ -77,6 +84,7 @@ class SettingsManager {
     setupSaveButtons() {
         const buttons = [
             { id: 'save-training-maxes-btn', fn: () => window.stateStore.saveTrainingMaxes() },
+            { id: 'save-progression-btn', fn: () => window.stateStore.saveProgressionRate() },
             { id: 'save-cycle-settings-btn', fn: () => window.stateStore.saveCycleSettings() },
             { id: 'save-accessories-btn', fn: () => window.stateStore.saveAccessories() },
             { id: 'save-all-settings-btn', fn: () => window.stateStore.saveToDatabase() }
@@ -114,9 +122,10 @@ class SettingsManager {
 
     loadInitialState() {
         if (!window.stateStore) return;
-        
+
         const state = window.stateStore.getState();
         this.updateTrainingMaxInputs(state.trainingMaxes);
+        this.updateProgressionRateInput(state.progressionRate);
         this.updateCycleSettingsInputs(state.cycleSettings);
         this.applyAccessorySettingsToUI(state.accessories);
         this.updateSelectionCounts(state.accessories);
@@ -124,13 +133,20 @@ class SettingsManager {
 
     updateTrainingMaxInputs(trainingMaxes) {
         if (!trainingMaxes) return;
-        
+
         Object.keys(trainingMaxes).forEach(lift => {
             const input = document.getElementById(`${lift}-max`);
             if (input && input.value !== trainingMaxes[lift].toString()) {
                 input.value = trainingMaxes[lift] || '';
             }
         });
+    }
+
+    updateProgressionRateInput(progressionRate) {
+        const select = document.getElementById('progression-rate-select');
+        if (select && progressionRate && select.value !== progressionRate) {
+            select.value = progressionRate;
+        }
     }
 
     updateCycleSettingsInputs(cycleSettings) {
