@@ -306,3 +306,47 @@
     animation: fadeInUp 0.6s ease forwards;
 }
 
+/* AMRAP Badge Styling */
+.amrap-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.7em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 10px;
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+    cursor: help;
+    animation: pulseAmrap 2s ease-in-out infinite;
+}
+
+.amrap-set {
+    border-left: 4px solid #f59e0b !important;
+}
+
+.amrap-set .reps {
+    color: #f59e0b;
+    font-weight: 700;
+}
+
+@keyframes pulseAmrap {
+    0%, 100% {
+        box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+    }
+    50% {
+        box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5);
+    }
+}
+
+/* Mobile AMRAP Badge */
+@media (max-width: 768px) {
+    .amrap-badge {
+        padding: 2px 8px;
+        font-size: 0.65em;
+        margin-left: 6px;
+    }
+}
+

@@ -1,32 +1,17 @@
 /**
- * Workout Manager 
+ * Workout Manager
  */
 import { ModuleInitializer, DebugLogger } from './shared-init.js';
+import { WEEK_CONFIGS, CYCLE_CONFIGS } from './config.js';
 
 class WorkoutManager {
     constructor() {
         this.logger = new DebugLogger('WorkoutManager');
         this.pageType = this.detectPageType();
         this.liftType = this.detectLiftType();
-        this.cycleConfigs = {
-            1: { percentage: 45, reps: 12, type: "Volume", description: "5 sets x 12 reps @ 45%" },
-            2: { percentage: 75, reps: 6, type: "Intensity", description: "5 sets x 6 reps @ 75%" },
-            3: { percentage: 50, reps: 11, type: "Volume", description: "5 sets x 11 reps @ 50%" },
-            4: { percentage: 80, reps: 5, type: "Intensity", description: "5 sets x 5 reps @ 80%" },
-            5: { percentage: 55, reps: 10, type: "Volume", description: "5 sets x 10 reps @ 55%" },
-            6: { percentage: 85, reps: 4, type: "Intensity", description: "5 sets x 4 reps @ 85%" },
-            7: { percentage: 60, reps: 9, type: "Volume", description: "5 sets x 9 reps @ 60%" },
-            8: { percentage: 90, reps: 3, type: "Intensity", description: "5 sets x 3 reps @ 90%" },
-            9: { percentage: 65, reps: 8, type: "Volume", description: "5 sets x 8 reps @ 65%" },
-            10: { percentage: 95, reps: 2, type: "Intensity", description: "5 sets x 2 reps @ 95%" },
-            11: { percentage: 70, reps: 7, type: "Volume", description: "5 sets x 7 reps @ 70%" },
-            12: { percentage: 100, reps: 1, type: "Test Week", description: "Test maxes or TM test" }
-        };
-        this.weekConfigs = {
-            1: [{ percentage: 65, reps: 5 }, { percentage: 75, reps: 5 }, { percentage: 85, reps: 5 }],
-            2: [{ percentage: 70, reps: 5 }, { percentage: 80, reps: 5 }, { percentage: 90, reps: 5 }],
-            3: [{ percentage: 75, reps: 5 }, { percentage: 85, reps: 5 }, { percentage: 95, reps: 5 }]
-        };
+        // Use imported configs from config.js
+        this.cycleConfigs = CYCLE_CONFIGS;
+        this.weekConfigs = WEEK_CONFIGS;
         this.init();
     }
 
@@ -146,15 +131,15 @@ class WorkoutManager {
 
         const mainSets = this.weekConfigs[week] || [];
         const rows = container.querySelectorAll('.set-row');
-        
+
         mainSets.forEach((set, i) => {
             if (rows[i]) {
                 const weight = Math.round(tm * set.percentage / 100 * 2) / 2;
-                this.updateSetRow(rows[i], set.reps, set.percentage, weight);
+                this.updateSetRow(rows[i], set.reps, set.percentage, weight, set.isAmrap);
                 rows[i].style.display = 'flex';
             }
         });
-        
+
         for (let i = mainSets.length; i < rows.length; i++) {
             rows[i].style.display = 'none';
         }
@@ -184,17 +169,37 @@ class WorkoutManager {
         }
     }
 
-    updateSetRow(row, reps, percentage, weight) {
+    updateSetRow(row, reps, percentage, weight, isAmrap = false) {
         const updates = {
-            '.reps': reps,
+            '.reps': isAmrap ? `${reps}+` : reps,
             '.percentage': percentage,
             '.weight-value': weight
         };
-        
+
         Object.entries(updates).forEach(([selector, value]) => {
             const el = row.querySelector(selector);
             if (el) el.textContent = value;
         });
+
+        // Add AMRAP badge/styling if this is an AMRAP set
+        if (isAmrap) {
+            row.classList.add('amrap-set');
+            // Add tooltip if not already present
+            if (!row.querySelector('.amrap-badge')) {
+                const badge = document.createElement('span');
+                badge.className = 'amrap-badge';
+                badge.textContent = 'AMRAP';
+                badge.title = 'As Many Reps As Possible - do as many quality reps as you can';
+                const setInfo = row.querySelector('.set-info');
+                if (setInfo) {
+                    setInfo.appendChild(badge);
+                }
+            }
+        } else {
+            row.classList.remove('amrap-set');
+            const badge = row.querySelector('.amrap-badge');
+            if (badge) badge.remove();
+        }
     }
 
     updateAccessories() {

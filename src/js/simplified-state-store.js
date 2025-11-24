@@ -303,6 +303,10 @@ class UnifiedStateStore {
     return this.persistence.saveAccessories();
   }
 
+  saveProgressionRate() {
+    return this.persistence.saveProgressionRate();
+  }
+
   saveSessionCompletionToDB(lift, data) {
     return this.persistence.saveSessionCompletionToDB(lift, data);
   }

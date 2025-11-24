@@ -14,17 +14,21 @@
  * STATE STRUCTURE:
  * - trainingMaxes: {squat, bench, deadlift, ohp}
  * - cycleSettings: {cycle, week}
+ * - progressionRate: 'conservative' | 'standard' | 'aggressive'
  * - accessories: {lift: [exercises]}
  * - sessionCompletion: Keyed by "lift_cycle_week"
  * - user: Current authenticated user
  * - Metadata: lastDatabaseSync, lastLocalChange, etc.
  */
 
+import { PROGRESSION_PRESETS } from './config.js';
+
 export class CoreStateStore {
   constructor() {
     this.state = {
       trainingMaxes: { squat: 0, bench: 0, deadlift: 0, ohp: 0 },
       cycleSettings: { cycle: 1, week: 1 },
+      progressionRate: 'conservative',  // 'conservative', 'standard', or 'aggressive'
       accessories: { squat: [], bench: [], deadlift: [], ohp: [] },
       sessionCompletion: {},
       user: null,
@@ -162,12 +166,20 @@ export class CoreStateStore {
 
   increaseTrainingMaxes() {
     const tm = this.state.trainingMaxes;
+    const progressionRate = this.state.progressionRate || 'conservative';
+    let progression = PROGRESSION_PRESETS[progressionRate];
+
+    if (!progression) {
+      console.error(`Invalid progression rate: ${progressionRate}, using conservative`);
+      progression = PROGRESSION_PRESETS.conservative;
+    }
+
     this.updateState({
       trainingMaxes: {
-        squat: (tm.squat || 0) + 2.5,
-        bench: (tm.bench || 0) + 2.5,
-        deadlift: (tm.deadlift || 0) + 2.5,
-        ohp: (tm.ohp || 0) + 1.25,
+        squat: (tm.squat || 0) + progression.main,
+        bench: (tm.bench || 0) + progression.main,
+        deadlift: (tm.deadlift || 0) + progression.main,
+        ohp: (tm.ohp || 0) + progression.ohp,
       },
     });
   }
