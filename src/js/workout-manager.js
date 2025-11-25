@@ -2,7 +2,7 @@
  * Workout Manager
  */
 import { ModuleInitializer, DebugLogger } from './shared-init.js';
-import { WEEK_CONFIGS, CYCLE_CONFIGS, REP_SCHEME_PRESETS } from './config.js';
+import { WEEK_CONFIGS, CYCLE_CONFIGS, REP_SCHEME_PRESETS, SUPPLEMENTAL_TEMPLATES } from './config.js';
 import { calculatePlates, BAR_WEIGHTS } from './plate-calculator.js';
 
 class WorkoutManager {
@@ -13,6 +13,7 @@ class WorkoutManager {
         // Use imported configs from config.js
         this.cycleConfigs = CYCLE_CONFIGS;
         this.weekConfigs = WEEK_CONFIGS;  // Default, will be updated based on repScheme
+        this.supplementalTemplates = SUPPLEMENTAL_TEMPLATES;
         this.init();
     }
 
@@ -52,6 +53,14 @@ class WorkoutManager {
             if (preset) {
                 this.weekConfigs = preset.configs;
                 this.updateWorkouts();  // Re-render workouts with new rep scheme
+            }
+        });
+        window.stateStore.subscribe('supplementalTemplate', (template) => {
+            // Update cycle configs based on selected supplemental template
+            const templateData = this.supplementalTemplates[template];
+            if (templateData) {
+                this.cycleConfigs = templateData.config;
+                this.updateWorkouts();  // Re-render workouts with new template
             }
         });
     }
@@ -160,7 +169,7 @@ class WorkoutManager {
 
         const config = this.cycleConfigs[cycle];
         const rows = container.querySelectorAll('.set-row');
-        
+
         if (cycle === 12) {
             if (rows[0]) {
                 rows[0].innerHTML = '<span class="set-info">Work up to new 1RM</span><span class="weight">Test Max</span>';
@@ -171,9 +180,18 @@ class WorkoutManager {
             }
         } else if (config) {
             const weight = Math.round(tm * config.percentage / 100 * 2) / 2;
-            for (let i = 0; i < 5 && rows[i]; i++) {
-                this.updateSetRow(rows[i], config.reps, config.percentage, weight);
+            const numSets = config.sets || 5;  // Default to 5 if not specified
+            const isLastSetAmrap = config.isLastSetAmrap || false;
+
+            for (let i = 0; i < numSets && rows[i]; i++) {
+                const isAmrap = isLastSetAmrap && (i === numSets - 1);
+                this.updateSetRow(rows[i], config.reps, config.percentage, weight, isAmrap);
                 rows[i].style.display = 'flex';
+            }
+
+            // Hide remaining rows
+            for (let i = numSets; i < rows.length; i++) {
+                rows[i].style.display = 'none';
             }
         }
     }

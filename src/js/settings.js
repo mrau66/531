@@ -26,6 +26,7 @@ class SettingsManager {
         window.stateStore.subscribe('cycleSettings', (cs) => this.updateCycleSettingsInputs(cs));
         window.stateStore.subscribe('progressionRate', (rate) => this.updateProgressionRateInput(rate));
         window.stateStore.subscribe('repScheme', (scheme) => this.updateRepSchemeInput(scheme));
+        window.stateStore.subscribe('supplementalTemplate', (template) => this.updateTemplateInput(template));
         window.stateStore.subscribe('accessories', (acc) => {
             this.applyAccessorySettingsToUI(acc);
             this.updateSelectionCounts(acc);
@@ -54,6 +55,12 @@ class SettingsManager {
         const repSchemeSelect = document.getElementById('rep-scheme-select');
         repSchemeSelect?.addEventListener('change', (e) => {
             window.stateStore.updateState({ repScheme: e.target.value });
+        });
+
+        // Supplemental template
+        const templateSelect = document.getElementById('template-select');
+        templateSelect?.addEventListener('change', (e) => {
+            window.stateStore.updateState({ supplementalTemplate: e.target.value });
         });
 
         // Cycle settings
@@ -93,6 +100,7 @@ class SettingsManager {
             { id: 'save-training-maxes-btn', fn: () => window.stateStore.saveTrainingMaxes() },
             { id: 'save-progression-btn', fn: () => window.stateStore.saveProgressionRate() },
             { id: 'save-rep-scheme-btn', fn: () => window.stateStore.saveRepScheme() },
+            { id: 'save-template-btn', fn: () => this.saveTemplate() },
             { id: 'save-cycle-settings-btn', fn: () => window.stateStore.saveCycleSettings() },
             { id: 'save-accessories-btn', fn: () => window.stateStore.saveAccessories() },
             { id: 'save-all-settings-btn', fn: () => window.stateStore.saveToDatabase() }
@@ -135,9 +143,18 @@ class SettingsManager {
         this.updateTrainingMaxInputs(state.trainingMaxes);
         this.updateProgressionRateInput(state.progressionRate);
         this.updateRepSchemeInput(state.repScheme);
+        this.updateTemplateInput(state.supplementalTemplate);
         this.updateCycleSettingsInputs(state.cycleSettings);
         this.applyAccessorySettingsToUI(state.accessories);
         this.updateSelectionCounts(state.accessories);
+    }
+
+    saveTemplate() {
+        // Template is saved to localStorage automatically via updateState
+        // This just persists to database if online
+        if (window.stateStore) {
+            window.stateStore.saveToDatabase();
+        }
     }
 
     updateTrainingMaxInputs(trainingMaxes) {
@@ -162,6 +179,13 @@ class SettingsManager {
         const select = document.getElementById('rep-scheme-select');
         if (select && repScheme && select.value !== repScheme) {
             select.value = repScheme;
+        }
+    }
+
+    updateTemplateInput(template) {
+        const select = document.getElementById('template-select');
+        if (select && template && select.value !== template) {
+            select.value = template;
         }
     }
 

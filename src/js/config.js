@@ -162,23 +162,162 @@ export const REP_SCHEME_PRESETS = {
 };
 
 // ===========================================
-// CYCLE CONFIGURATIONS
+// SUPPLEMENTAL WORK TEMPLATES
 // ===========================================
 
-export const CYCLE_CONFIGS = {
-  1: { percentage: 45, reps: 12, type: "Volume", description: "5 sets x 12 reps @ 45%" },
-  2: { percentage: 75, reps: 6, type: "Intensity", description: "5 sets x 6 reps @ 75%" },
-  3: { percentage: 50, reps: 11, type: "Volume", description: "5 sets x 11 reps @ 50%" },
-  4: { percentage: 80, reps: 5, type: "Intensity", description: "5 sets x 5 reps @ 80%" },
-  5: { percentage: 55, reps: 10, type: "Volume", description: "5 sets x 10 reps @ 55%" },
-  6: { percentage: 85, reps: 4, type: "Intensity", description: "5 sets x 4 reps @ 85%" },
-  7: { percentage: 60, reps: 9, type: "Volume", description: "5 sets x 9 reps @ 60%" },
-  8: { percentage: 90, reps: 3, type: "Intensity", description: "5 sets x 3 reps @ 90%" },
-  9: { percentage: 65, reps: 8, type: "Volume", description: "5 sets x 8 reps @ 65%" },
-  10: { percentage: 95, reps: 2, type: "Intensity", description: "5 sets x 2 reps @ 95%" },
-  11: { percentage: 70, reps: 7, type: "Volume", description: "5 sets x 7 reps @ 70%" },
-  12: { percentage: 100, reps: 1, type: "Test Week", description: "Test maxes or TM test" }
+// 531 x 365 - Original 12-cycle program
+export const TEMPLATE_531x365 = {
+  1: { percentage: 45, reps: 12, sets: 5, type: "Volume", description: "5×12 @ 45%" },
+  2: { percentage: 75, reps: 6, sets: 5, type: "Intensity", description: "5×6 @ 75%" },
+  3: { percentage: 50, reps: 11, sets: 5, type: "Volume", description: "5×11 @ 50%" },
+  4: { percentage: 80, reps: 5, sets: 5, type: "Intensity", description: "5×5 @ 80%" },
+  5: { percentage: 55, reps: 10, sets: 5, type: "Volume", description: "5×10 @ 55%" },
+  6: { percentage: 85, reps: 4, sets: 5, type: "Intensity", description: "5×4 @ 85%" },
+  7: { percentage: 60, reps: 9, sets: 5, type: "Volume", description: "5×9 @ 60%" },
+  8: { percentage: 90, reps: 3, sets: 5, type: "Intensity", description: "5×3 @ 90%" },
+  9: { percentage: 65, reps: 8, sets: 5, type: "Volume", description: "5×8 @ 65%" },
+  10: { percentage: 95, reps: 2, sets: 5, type: "Intensity", description: "5×2 @ 95%" },
+  11: { percentage: 70, reps: 7, sets: 5, type: "Volume", description: "5×7 @ 70%" },
+  12: { percentage: 100, reps: 1, sets: 1, type: "Test Week", description: "Test maxes or TM test" }
 };
+
+// BBB (Boring But Big) - Hypertrophy focused
+export const TEMPLATE_BBB = {
+  get 1() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 2() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 3() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 4() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 5() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 6() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 7() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 8() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 9() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 10() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 11() { return { percentage: 50, reps: 10, sets: 5, type: "BBB", description: "5×10 @ 50% TM" }; },
+  get 12() { return { percentage: 100, reps: 1, sets: 1, type: "Test Week", description: "Test maxes or TM test" }; }
+};
+
+// FSL (First Set Last) - 5×5 @ first set percentage
+export const TEMPLATE_FSL = {
+  get 1() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 2() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 3() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 4() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 5() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 6() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 7() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 8() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 9() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 10() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 11() { return { percentage: 65, reps: 5, sets: 5, type: "FSL", description: "5×5 @ 65% (FSL)" }; },
+  get 12() { return { percentage: 100, reps: 1, sets: 1, type: "Test Week", description: "Test maxes or TM test" }; }
+};
+
+// SSL (Second Set Last) - 5×5 @ second set percentage
+export const TEMPLATE_SSL = {
+  get 1() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 2() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 3() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 4() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 5() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 6() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 7() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 8() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 9() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 10() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 11() { return { percentage: 75, reps: 5, sets: 5, type: "SSL", description: "5×5 @ 75% (SSL)" }; },
+  get 12() { return { percentage: 100, reps: 1, sets: 1, type: "Test Week", description: "Test maxes or TM test" }; }
+};
+
+// FSL AMRAP - FSL with last set AMRAP
+export const TEMPLATE_FSL_AMRAP = {
+  get 1() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 2() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 3() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 4() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 5() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 6() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 7() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 8() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 9() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 10() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 11() { return { percentage: 65, reps: 5, sets: 5, isLastSetAmrap: true, type: "FSL+", description: "5×5 @ 65% (last set AMRAP)" }; },
+  get 12() { return { percentage: 100, reps: 1, sets: 1, type: "Test Week", description: "Test maxes or TM test" }; }
+};
+
+// BBB Beefcake - Higher volume BBB
+export const TEMPLATE_BBB_BEEFCAKE = {
+  get 1() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 2() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 3() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 4() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 5() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 6() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 7() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 8() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 9() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 10() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 11() { return { percentage: 60, reps: 10, sets: 5, type: "BBB+", description: "5×10 @ 60% TM" }; },
+  get 12() { return { percentage: 100, reps: 1, sets: 1, type: "Test Week", description: "Test maxes or TM test" }; }
+};
+
+// Simplest Strength - Minimal supplemental
+export const TEMPLATE_SIMPLEST = {
+  get 1() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 2() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 3() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 4() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 5() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 6() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 7() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 8() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 9() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 10() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 11() { return { percentage: 65, reps: 5, sets: 3, type: "Simplest", description: "3×5 @ 65% (FSL)" }; },
+  get 12() { return { percentage: 100, reps: 1, sets: 1, type: "Test Week", description: "Test maxes or TM test" }; }
+};
+
+// Template presets
+export const SUPPLEMENTAL_TEMPLATES = {
+  '531x365': {
+    name: '531 x 365 (Original)',
+    description: '12 cycles alternating Volume/Intensity phases - year-long progression',
+    config: TEMPLATE_531x365,
+  },
+  'bbb': {
+    name: 'BBB (Boring But Big)',
+    description: '5×10 @ 50% TM - classic hypertrophy template',
+    config: TEMPLATE_BBB,
+  },
+  'fsl': {
+    name: 'FSL (First Set Last)',
+    description: '5×5 @ 65% TM - balanced volume and intensity',
+    config: TEMPLATE_FSL,
+  },
+  'ssl': {
+    name: 'SSL (Second Set Last)',
+    description: '5×5 @ 75% TM - higher intensity supplemental work',
+    config: TEMPLATE_SSL,
+  },
+  'fsl_amrap': {
+    name: 'FSL AMRAP',
+    description: '5×5 @ 65% with last set AMRAP - push for volume PR',
+    config: TEMPLATE_FSL_AMRAP,
+  },
+  'bbb_beefcake': {
+    name: 'BBB Beefcake',
+    description: '5×10 @ 60% TM - high volume mass building',
+    config: TEMPLATE_BBB_BEEFCAKE,
+  },
+  'simplest': {
+    name: 'Simplest Strength',
+    description: '3×5 @ 65% - minimal effective supplemental work',
+    config: TEMPLATE_SIMPLEST,
+  },
+};
+
+// Default config for backward compatibility
+export const CYCLE_CONFIGS = TEMPLATE_531x365;
 
 // ===========================================
 // DEFAULT ACCESSORIES

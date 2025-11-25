@@ -139,7 +139,50 @@ permalink: "/settings/"
             </div>
         </div>
 
-        <!-- SECTION 4: Cycle & Week Selection -->
+        <!-- SECTION 4: Supplemental Work Template -->
+        <div class="settings-section">
+            <div class="section-header">
+                <h3>Supplemental Work Template</h3>
+                <button id="save-template-btn" class="save-btn" type="button">
+                    <span class="save-icon">💾</span>
+                    <span class="save-text">Save Template</span>
+                </button>
+            </div>
+
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h4>Which Supplemental Work Template?</h4>
+                    <button class="collapse-btn" data-target="template-content" type="button">
+                        <span class="collapse-icon">−</span>
+                    </button>
+                </div>
+                <div class="collapsible-content" id="template-content">
+                    <div class="template-selector">
+                        <label for="template-select">Supplemental Template:</label>
+                        <select id="template-select">
+                            <option value="531x365">531 x 365 (Original) - 12 cycles alternating Volume/Intensity</option>
+                            <option value="bbb">BBB (Boring But Big) - 5×10 @ 50% TM for hypertrophy</option>
+                            <option value="fsl">FSL (First Set Last) - 5×5 @ 65% TM balanced work</option>
+                            <option value="ssl">SSL (Second Set Last) - 5×5 @ 75% TM higher intensity</option>
+                            <option value="fsl_amrap">FSL AMRAP - 5×5 @ 65% with last set AMRAP</option>
+                            <option value="bbb_beefcake">BBB Beefcake - 5×10 @ 60% TM high volume</option>
+                            <option value="simplest">Simplest Strength - 3×5 @ 65% minimal work</option>
+                        </select>
+                        <p class="template-explanation">
+                            <strong>531 x 365:</strong> Year-long progression with alternating volume and intensity phases.<br><br>
+                            <strong>BBB:</strong> High volume (5×10) for muscle growth. Great for building mass.<br><br>
+                            <strong>FSL:</strong> Balanced supplemental work at first set weight (65%).<br><br>
+                            <strong>SSL:</strong> Heavier supplemental work at second set weight (75%).<br><br>
+                            <strong>FSL AMRAP:</strong> FSL with last set as many reps as possible for extra volume.<br><br>
+                            <strong>BBB Beefcake:</strong> Higher intensity BBB (60% vs 50%).<br><br>
+                            <strong>Simplest:</strong> Minimal supplemental work for when focusing on other training.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: Cycle & Week Selection -->
         <div class="settings-section">
             <div class="section-header">
                 <h3>Cycle & Week Position</h3>
@@ -384,6 +427,42 @@ permalink: "/settings/"
 }
 
 .rep-scheme-explanation {
+    font-size: 0.85em;
+    color: #6c757d;
+    line-height: 1.6;
+    margin: 0;
+    padding: 12px;
+    background: white;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.template-selector {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.template-selector label {
+    font-weight: 500;
+    font-size: 0.9em;
+    color: var(--dark-gray-color);
+    display: block;
+    margin-bottom: 12px;
+}
+
+.template-selector select {
+    width: 100%;
+    background: white;
+    border: 1.5px solid #dee2e6;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.template-explanation {
     font-size: 0.85em;
     color: #6c757d;
     line-height: 1.6;
