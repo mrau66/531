@@ -17,6 +17,7 @@
  * - progressionRate: 'conservative' | 'standard' | 'aggressive'
  * - repScheme: 'standard' | 'fives_pro'
  * - barWeight: Bar weight in kg (default 20)
+ * - timerSettings: Rest timer configuration
  * - accessories: {lift: [exercises]}
  * - sessionCompletion: Keyed by "lift_cycle_week"
  * - user: Current authenticated user
@@ -33,6 +34,12 @@ export class CoreStateStore {
       progressionRate: 'conservative',  // 'conservative', 'standard', or 'aggressive'
       repScheme: 'standard',  // 'standard' (5/3/1) or 'fives_pro' (5s PRO)
       barWeight: 20,  // Barbell weight in kg (20kg standard, 15kg women's)
+      timerSettings: {
+        autoStart: true,          // Auto-start timer when completing a set
+        defaultDuration: 120,     // Default rest duration in seconds (2 minutes)
+        soundEnabled: true,       // Play beep when timer completes
+        vibrationEnabled: true,   // Vibrate when timer completes (mobile)
+      },
       accessories: { squat: [], bench: [], deadlift: [], ohp: [] },
       sessionCompletion: {},
       user: null,

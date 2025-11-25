@@ -180,6 +180,66 @@ permalink: "/settings/"
             </div>
         </div>
 
+        <!-- SECTION 3.6: Rest Timer -->
+        <div class="settings-section">
+            <div class="section-header">
+                <h3>Rest Timer</h3>
+                <button id="save-timer-settings-btn" class="save-btn" type="button">
+                    <span class="save-icon">💾</span>
+                    <span class="save-text">Save Timer Settings</span>
+                </button>
+            </div>
+
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h4>Rest Timer Configuration</h4>
+                    <button class="collapse-btn" data-target="timer-settings-content" type="button">
+                        <span class="collapse-icon">−</span>
+                    </button>
+                </div>
+                <div class="collapsible-content" id="timer-settings-content">
+                    <div class="timer-settings-form">
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="timer-auto-start" checked>
+                                Auto-start timer when completing a set
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="timer-default-duration">Default Rest Duration:</label>
+                            <select id="timer-default-duration">
+                                <option value="90">1:30 (90 seconds)</option>
+                                <option value="120" selected>2:00 (120 seconds)</option>
+                                <option value="180">3:00 (180 seconds)</option>
+                                <option value="240">4:00 (240 seconds)</option>
+                                <option value="300">5:00 (300 seconds)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="timer-sound-enabled" checked>
+                                Play sound when timer completes
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="timer-vibration-enabled" checked>
+                                Vibrate when timer completes (mobile)
+                            </label>
+                        </div>
+
+                        <p class="timer-settings-explanation">
+                            The rest timer helps you maintain consistent rest periods between sets.
+                            When enabled, it will automatically start counting down after you complete a set.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- SECTION 4: Cycle & Week Selection -->
         <div class="settings-section">
             <div class="section-header">

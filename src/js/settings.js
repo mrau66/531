@@ -78,6 +78,27 @@ class SettingsManager {
             }
         });
 
+        // Timer settings
+        document.getElementById('timer-auto-start')?.addEventListener('change', (e) => {
+            const current = window.stateStore.getState().timerSettings;
+            window.stateStore.updateState({ timerSettings: { ...current, autoStart: e.target.checked } });
+        });
+
+        document.getElementById('timer-default-duration')?.addEventListener('change', (e) => {
+            const current = window.stateStore.getState().timerSettings;
+            window.stateStore.updateState({ timerSettings: { ...current, defaultDuration: parseInt(e.target.value) } });
+        });
+
+        document.getElementById('timer-sound-enabled')?.addEventListener('change', (e) => {
+            const current = window.stateStore.getState().timerSettings;
+            window.stateStore.updateState({ timerSettings: { ...current, soundEnabled: e.target.checked } });
+        });
+
+        document.getElementById('timer-vibration-enabled')?.addEventListener('change', (e) => {
+            const current = window.stateStore.getState().timerSettings;
+            window.stateStore.updateState({ timerSettings: { ...current, vibrationEnabled: e.target.checked } });
+        });
+
         // Cycle settings
         const cycleSelect = document.getElementById('cycle-select');
         const weekSelect = document.getElementById('week-select');

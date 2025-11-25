@@ -101,9 +101,25 @@ export class SessionStateManager {
     this.updateStateInStore(liftType, setType, setIndex, newState);
     this.progressTracker.updateProgress(liftType);
 
+    // Auto-start rest timer if set was completed
+    if (newState && isUserInitiated) {
+      this.startRestTimer();
+    }
+
     // Save if online
     if (window.stateStore?.state.user) {
       this.save(liftType);
+    }
+  }
+
+  startRestTimer() {
+    // Check if timer should auto-start
+    const state = window.stateStore?.getState();
+    const timerSettings = state?.timerSettings || {};
+
+    if (timerSettings.autoStart !== false && window.restTimer) {
+      const duration = timerSettings.defaultDuration || 120;
+      window.restTimer.start(duration);
     }
   }
 
