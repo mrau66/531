@@ -230,7 +230,7 @@ export class PersistenceManager {
   async loadAccessories() {
     const { data, error } = await supabase
       .from("user_settings")
-      .select("accessories, progression_rate, rep_scheme")
+      .select("accessories, progression_rate, rep_scheme, bar_weight")
       .eq("user_id", this.coreStore.state.user.id)
       .single();
 
@@ -245,6 +245,9 @@ export class PersistenceManager {
     }
     if (data?.rep_scheme) {
       updates.repScheme = data.rep_scheme;
+    }
+    if (data?.bar_weight) {
+      updates.barWeight = data.bar_weight;
     }
 
     if (Object.keys(updates).length > 0) {
@@ -299,6 +302,19 @@ export class PersistenceManager {
       {
         user_id: this.coreStore.state.user.id,
         rep_scheme: this.coreStore.state.repScheme,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id" }
+    );
+
+    if (error) throw error;
+  }
+
+  async saveBarWeight() {
+    const { error } = await supabase.from("user_settings").upsert(
+      {
+        user_id: this.coreStore.state.user.id,
+        bar_weight: this.coreStore.state.barWeight,
         updated_at: new Date().toISOString(),
       },
       { onConflict: "user_id" }

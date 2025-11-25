@@ -16,6 +16,7 @@
  * - cycleSettings: {cycle, week}
  * - progressionRate: 'conservative' | 'standard' | 'aggressive'
  * - repScheme: 'standard' | 'fives_pro'
+ * - barWeight: Bar weight in kg (default 20)
  * - accessories: {lift: [exercises]}
  * - sessionCompletion: Keyed by "lift_cycle_week"
  * - user: Current authenticated user
@@ -31,6 +32,7 @@ export class CoreStateStore {
       cycleSettings: { cycle: 1, week: 1 },
       progressionRate: 'conservative',  // 'conservative', 'standard', or 'aggressive'
       repScheme: 'standard',  // 'standard' (5/3/1) or 'fives_pro' (5s PRO)
+      barWeight: 20,  // Barbell weight in kg (20kg standard, 15kg women's)
       accessories: { squat: [], bench: [], deadlift: [], ohp: [] },
       sessionCompletion: {},
       user: null,

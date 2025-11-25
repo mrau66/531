@@ -54,6 +54,10 @@ class WorkoutManager {
                 this.updateWorkouts();  // Re-render workouts with new rep scheme
             }
         });
+        window.stateStore.subscribe('barWeight', () => {
+            // Update plate displays when bar weight changes
+            this.updateWorkouts();
+        });
     }
 
     updateAll() {
@@ -215,8 +219,11 @@ class WorkoutManager {
     }
 
     updatePlateDisplay(row, weight) {
+        // Get configured bar weight from state
+        const { barWeight } = window.stateStore.getState();
+
         // Calculate plates needed
-        const plateResult = calculatePlates(weight, BAR_WEIGHTS.STANDARD);
+        const plateResult = calculatePlates(weight, barWeight || BAR_WEIGHTS.STANDARD);
 
         // Find or create plate display element
         let plateDisplay = row.querySelector('.plate-display');
@@ -228,7 +235,7 @@ class WorkoutManager {
 
         // Update plate display content
         if (plateResult.plates.length === 0) {
-            plateDisplay.innerHTML = '<span class="plates-text">Bar only (20 kg)</span>';
+            plateDisplay.innerHTML = `<span class="plates-text">Bar only (${barWeight || 20} kg)</span>`;
         } else {
             plateDisplay.innerHTML = `<span class="plates-label">Per side:</span> <span class="plates-text">${plateResult.message}</span>`;
         }

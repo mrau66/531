@@ -26,6 +26,7 @@ class SettingsManager {
         window.stateStore.subscribe('cycleSettings', (cs) => this.updateCycleSettingsInputs(cs));
         window.stateStore.subscribe('progressionRate', (rate) => this.updateProgressionRateInput(rate));
         window.stateStore.subscribe('repScheme', (scheme) => this.updateRepSchemeInput(scheme));
+        window.stateStore.subscribe('barWeight', (weight) => this.updateBarWeightInput(weight));
         window.stateStore.subscribe('accessories', (acc) => {
             this.applyAccessorySettingsToUI(acc);
             this.updateSelectionCounts(acc);
@@ -54,6 +55,27 @@ class SettingsManager {
         const repSchemeSelect = document.getElementById('rep-scheme-select');
         repSchemeSelect?.addEventListener('change', (e) => {
             window.stateStore.updateState({ repScheme: e.target.value });
+        });
+
+        // Bar weight
+        const barWeightSelect = document.getElementById('bar-weight-select');
+        const customBarWeightInput = document.getElementById('custom-bar-weight');
+        const customBarWeightDiv = document.getElementById('custom-bar-weight-input');
+
+        barWeightSelect?.addEventListener('change', (e) => {
+            if (e.target.value === 'custom') {
+                customBarWeightDiv.style.display = 'block';
+                window.stateStore.updateState({ barWeight: parseFloat(customBarWeightInput.value) || 20 });
+            } else {
+                customBarWeightDiv.style.display = 'none';
+                window.stateStore.updateState({ barWeight: parseFloat(e.target.value) });
+            }
+        });
+
+        customBarWeightInput?.addEventListener('input', (e) => {
+            if (barWeightSelect.value === 'custom') {
+                window.stateStore.updateState({ barWeight: parseFloat(e.target.value) || 20 });
+            }
         });
 
         // Cycle settings
@@ -93,6 +115,7 @@ class SettingsManager {
             { id: 'save-training-maxes-btn', fn: () => window.stateStore.saveTrainingMaxes() },
             { id: 'save-progression-btn', fn: () => window.stateStore.saveProgressionRate() },
             { id: 'save-rep-scheme-btn', fn: () => window.stateStore.saveRepScheme() },
+            { id: 'save-bar-weight-btn', fn: () => window.stateStore.saveBarWeight() },
             { id: 'save-cycle-settings-btn', fn: () => window.stateStore.saveCycleSettings() },
             { id: 'save-accessories-btn', fn: () => window.stateStore.saveAccessories() },
             { id: 'save-all-settings-btn', fn: () => window.stateStore.saveToDatabase() }
@@ -135,6 +158,7 @@ class SettingsManager {
         this.updateTrainingMaxInputs(state.trainingMaxes);
         this.updateProgressionRateInput(state.progressionRate);
         this.updateRepSchemeInput(state.repScheme);
+        this.updateBarWeightInput(state.barWeight);
         this.updateCycleSettingsInputs(state.cycleSettings);
         this.applyAccessorySettingsToUI(state.accessories);
         this.updateSelectionCounts(state.accessories);
@@ -162,6 +186,25 @@ class SettingsManager {
         const select = document.getElementById('rep-scheme-select');
         if (select && repScheme && select.value !== repScheme) {
             select.value = repScheme;
+        }
+    }
+
+    updateBarWeightInput(barWeight) {
+        const select = document.getElementById('bar-weight-select');
+        const customInput = document.getElementById('custom-bar-weight');
+        const customDiv = document.getElementById('custom-bar-weight-input');
+
+        if (!select || !barWeight) return;
+
+        // Check if it's a standard weight (20 or 15)
+        if (barWeight === 20 || barWeight === 15) {
+            select.value = barWeight.toString();
+            customDiv.style.display = 'none';
+        } else {
+            // Custom weight
+            select.value = 'custom';
+            customInput.value = barWeight;
+            customDiv.style.display = 'block';
         }
     }
 

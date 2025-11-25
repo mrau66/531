@@ -139,6 +139,47 @@ permalink: "/settings/"
             </div>
         </div>
 
+        <!-- SECTION 3.5: Bar Weight -->
+        <div class="settings-section">
+            <div class="section-header">
+                <h3>Bar Weight</h3>
+                <button id="save-bar-weight-btn" class="save-btn" type="button">
+                    <span class="save-icon">💾</span>
+                    <span class="save-text">Save Bar Weight</span>
+                </button>
+            </div>
+
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h4>What Barbell Do You Use?</h4>
+                    <button class="collapse-btn" data-target="bar-weight-content" type="button">
+                        <span class="collapse-icon">−</span>
+                    </button>
+                </div>
+                <div class="collapsible-content" id="bar-weight-content">
+                    <div class="bar-weight-selector">
+                        <label for="bar-weight-select">Bar Weight:</label>
+                        <select id="bar-weight-select">
+                            <option value="20">20 kg - Standard Olympic Bar (Men's)</option>
+                            <option value="15">15 kg - Olympic Bar (Women's)</option>
+                            <option value="custom">Custom Weight</option>
+                        </select>
+
+                        <div id="custom-bar-weight-input" style="display: none; margin-top: 16px;">
+                            <label for="custom-bar-weight">Custom Bar Weight (kg):</label>
+                            <input type="number" id="custom-bar-weight" min="5" max="30" step="0.5" value="20" />
+                        </div>
+
+                        <p class="bar-weight-explanation">
+                            <strong>Standard Olympic Bar (20 kg):</strong> Most common bar used in commercial gyms and powerlifting.<br><br>
+                            <strong>Women's Olympic Bar (15 kg):</strong> Thinner diameter bar, standard for women's weightlifting.<br><br>
+                            <strong>Custom:</strong> For specialty bars (safety squat bar, trap bar, etc.) or different bar standards.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- SECTION 4: Cycle & Week Selection -->
         <div class="settings-section">
             <div class="section-header">

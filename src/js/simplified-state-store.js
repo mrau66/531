@@ -311,6 +311,10 @@ class UnifiedStateStore {
     return this.persistence.saveRepScheme();
   }
 
+  saveBarWeight() {
+    return this.persistence.saveBarWeight();
+  }
+
   saveSessionCompletionToDB(lift, data) {
     return this.persistence.saveSessionCompletionToDB(lift, data);
   }
