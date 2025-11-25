@@ -68,10 +68,20 @@ class SessionTracker {
 
     // Wait for StateStore's "fully ready" event
     await new Promise((resolve) => {
+      // Check if already ready
+      if (window.stateStore?.state?.isInitialLoadComplete) {
+        console.log("✅ StateStore already ready");
+        resolve();
+        return;
+      }
+
       window.addEventListener("stateStoreFullyReady", resolve, { once: true });
 
-      // Timeout fallback (5 seconds)
-      setTimeout(resolve, 5000);
+      // Timeout fallback (reduced from 5s to 2s)
+      setTimeout(() => {
+        console.log("⏱️ StateStore ready timeout, proceeding anyway");
+        resolve();
+      }, 2000);
     });
 
     console.log("✅ StateStore confirmed ready, loading session states");
@@ -113,10 +123,16 @@ class SessionTracker {
   }
 
   async waitForStateStore() {
+    // StateStore should be available almost immediately (loaded synchronously)
+    // Reduced retries from 50 to 20 (max 2 seconds instead of 5)
     let retries = 0;
-    while (retries < 50 && !window.stateStore) {
+    while (retries < 20 && !window.stateStore) {
       await new Promise((resolve) => setTimeout(resolve, 100));
       retries++;
+    }
+
+    if (!window.stateStore) {
+      console.warn("⚠️ StateStore not found after timeout");
     }
   }
 

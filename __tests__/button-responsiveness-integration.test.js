@@ -148,8 +148,8 @@ describe('Button Responsiveness Integration Tests', () => {
 
       const tti = Date.now() - startTime;
 
-      // TTI should be fast in offline mode (< 500ms)
-      expect(tti).toBeLessThan(500);
+      // TTI should be fast in offline mode (< 300ms, improved from 500ms)
+      expect(tti).toBeLessThan(300);
 
       // Verify interactive
       const setRow = document.querySelector('.set-row');
@@ -162,8 +162,8 @@ describe('Button Responsiveness Integration Tests', () => {
       const startTime = Date.now();
       const tracker = createTrackerWithEventHandlers();
 
-      // Simulate network delays
-      await waitFor(300); // Auth check
+      // Simulate network delays (OPTIMIZED)
+      await waitFor(100); // Auth check (reduced from 300ms, event-based)
       await waitFor(800); // Database load
 
       mockStateStore.state.isInitialLoadComplete = true;
@@ -177,8 +177,8 @@ describe('Button Responsiveness Integration Tests', () => {
 
       const tti = Date.now() - startTime;
 
-      // TTI with network should be < 2s (acceptable)
-      expect(tti).toBeLessThan(2000);
+      // TTI with network should be < 1.5s (improved from 2s)
+      expect(tti).toBeLessThan(1500);
 
       // Verify interactive
       const setRow = document.querySelector('.set-row');

@@ -97,14 +97,33 @@ class UnifiedStateStore {
   async waitForAuth() {
     console.log("⏳ Waiting for AuthManager...");
 
-    // Wait for AuthManager or check session directly
-    for (let i = 0; i < 30; i++) {
+    // Event-based approach: wait for authManagerReady event or timeout
+    const authReadyPromise = new Promise((resolve) => {
+      // Check if already ready
       if (window.auth?.hasCheckedSession) {
-        console.log("✅ AuthManager ready");
-        break;
+        console.log("✅ AuthManager already ready");
+        resolve();
+        return;
       }
-      await new Promise((r) => setTimeout(r, 100));
-    }
+
+      // Otherwise, wait for the event
+      const handler = () => {
+        console.log("✅ AuthManager ready event received");
+        resolve();
+      };
+      window.addEventListener("authManagerReady", handler, { once: true });
+    });
+
+    // Timeout fallback (reduced from 3s to 1s)
+    const timeoutPromise = new Promise((resolve) => {
+      setTimeout(() => {
+        console.log("⏱️ Auth check timeout, proceeding anyway");
+        resolve();
+      }, 1000);
+    });
+
+    // Race between event and timeout
+    await Promise.race([authReadyPromise, timeoutPromise]);
 
     // Check if user is authenticated
     try {
