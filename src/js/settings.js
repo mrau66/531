@@ -27,6 +27,7 @@ class SettingsManager {
         window.stateStore.subscribe('progressionRate', (rate) => this.updateProgressionRateInput(rate));
         window.stateStore.subscribe('repScheme', (scheme) => this.updateRepSchemeInput(scheme));
         window.stateStore.subscribe('supplementalTemplate', (template) => this.updateTemplateInput(template));
+        window.stateStore.subscribe('theme', (theme) => this.updateThemeInput(theme));
         window.stateStore.subscribe('accessories', (acc) => {
             this.applyAccessorySettingsToUI(acc);
             this.updateSelectionCounts(acc);
@@ -61,6 +62,12 @@ class SettingsManager {
         const templateSelect = document.getElementById('template-select');
         templateSelect?.addEventListener('change', (e) => {
             window.stateStore.updateState({ supplementalTemplate: e.target.value });
+        });
+
+        // Theme
+        const themeSelect = document.getElementById('theme-select');
+        themeSelect?.addEventListener('change', (e) => {
+            window.stateStore.updateState({ theme: e.target.value });
         });
 
         // Cycle settings
@@ -101,6 +108,7 @@ class SettingsManager {
             { id: 'save-progression-btn', fn: () => window.stateStore.saveProgressionRate() },
             { id: 'save-rep-scheme-btn', fn: () => window.stateStore.saveRepScheme() },
             { id: 'save-template-btn', fn: () => this.saveTemplate() },
+            { id: 'save-theme-btn', fn: () => this.saveTheme() },
             { id: 'save-cycle-settings-btn', fn: () => window.stateStore.saveCycleSettings() },
             { id: 'save-accessories-btn', fn: () => window.stateStore.saveAccessories() },
             { id: 'save-all-settings-btn', fn: () => window.stateStore.saveToDatabase() }
@@ -144,6 +152,7 @@ class SettingsManager {
         this.updateProgressionRateInput(state.progressionRate);
         this.updateRepSchemeInput(state.repScheme);
         this.updateTemplateInput(state.supplementalTemplate);
+        this.updateThemeInput(state.theme);
         this.updateCycleSettingsInputs(state.cycleSettings);
         this.applyAccessorySettingsToUI(state.accessories);
         this.updateSelectionCounts(state.accessories);
@@ -151,6 +160,14 @@ class SettingsManager {
 
     saveTemplate() {
         // Template is saved to localStorage automatically via updateState
+        // This just persists to database if online
+        if (window.stateStore) {
+            window.stateStore.saveToDatabase();
+        }
+    }
+
+    saveTheme() {
+        // Theme is saved to localStorage automatically via updateState
         // This just persists to database if online
         if (window.stateStore) {
             window.stateStore.saveToDatabase();
@@ -186,6 +203,13 @@ class SettingsManager {
         const select = document.getElementById('template-select');
         if (select && template && select.value !== template) {
             select.value = template;
+        }
+    }
+
+    updateThemeInput(theme) {
+        const select = document.getElementById('theme-select');
+        if (select && theme && select.value !== theme) {
+            select.value = theme;
         }
     }
 

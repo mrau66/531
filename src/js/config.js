@@ -40,6 +40,126 @@ export const TIMING = {
 };
 
 // ===========================================
+// THEME CONFIGURATIONS
+// ===========================================
+
+export const THEMES = {
+  light: {
+    name: 'Light',
+    description: 'Clean, bright interface for daytime use',
+    colors: {
+      // Primary colors
+      '--primary-color': '#007bff',
+      '--primary-hover': '#0056b3',
+      '--success-color': '#10b981',
+      '--danger-color': '#ef4444',
+      '--warning-color': '#f59e0b',
+
+      // Backgrounds
+      '--bg-primary': '#ffffff',
+      '--bg-secondary': '#f8f9fa',
+      '--bg-tertiary': '#e9ecef',
+
+      // Text colors
+      '--text-primary': '#212529',
+      '--text-secondary': '#6c757d',
+      '--text-tertiary': '#adb5bd',
+
+      // Borders
+      '--border-color': '#dee2e6',
+      '--border-hover': '#adb5bd',
+
+      // Shadows
+      '--shadow-sm': '0 1px 3px rgba(0,0,0,0.1)',
+      '--shadow-md': '0 4px 6px rgba(0,0,0,0.1)',
+      '--shadow-lg': '0 10px 15px rgba(0,0,0,0.1)',
+
+      // Component specific
+      '--card-bg': '#ffffff',
+      '--input-bg': '#ffffff',
+      '--navbar-bg': '#ffffff',
+      '--navbar-text': '#212529',
+    }
+  },
+
+  dark: {
+    name: 'Dark',
+    description: 'Eye-friendly dark theme for low-light environments',
+    colors: {
+      // Primary colors
+      '--primary-color': '#3b82f6',
+      '--primary-hover': '#2563eb',
+      '--success-color': '#10b981',
+      '--danger-color': '#ef4444',
+      '--warning-color': '#f59e0b',
+
+      // Backgrounds
+      '--bg-primary': '#1a1a1a',
+      '--bg-secondary': '#2d2d2d',
+      '--bg-tertiary': '#404040',
+
+      // Text colors
+      '--text-primary': '#f8f9fa',
+      '--text-secondary': '#adb5bd',
+      '--text-tertiary': '#6c757d',
+
+      // Borders
+      '--border-color': '#404040',
+      '--border-hover': '#6c757d',
+
+      // Shadows
+      '--shadow-sm': '0 1px 3px rgba(0,0,0,0.3)',
+      '--shadow-md': '0 4px 6px rgba(0,0,0,0.3)',
+      '--shadow-lg': '0 10px 15px rgba(0,0,0,0.3)',
+
+      // Component specific
+      '--card-bg': '#2d2d2d',
+      '--input-bg': '#1a1a1a',
+      '--navbar-bg': '#1a1a1a',
+      '--navbar-text': '#f8f9fa',
+    }
+  },
+
+  contrast: {
+    name: 'High Contrast',
+    description: 'Maximum contrast for accessibility and visibility',
+    colors: {
+      // Primary colors
+      '--primary-color': '#0066cc',
+      '--primary-hover': '#0052a3',
+      '--success-color': '#008000',
+      '--danger-color': '#cc0000',
+      '--warning-color': '#ff8c00',
+
+      // Backgrounds
+      '--bg-primary': '#000000',
+      '--bg-secondary': '#1a1a1a',
+      '--bg-tertiary': '#333333',
+
+      // Text colors
+      '--text-primary': '#ffffff',
+      '--text-secondary': '#e0e0e0',
+      '--text-tertiary': '#b0b0b0',
+
+      // Borders
+      '--border-color': '#ffffff',
+      '--border-hover': '#e0e0e0',
+
+      // Shadows
+      '--shadow-sm': '0 2px 4px rgba(255,255,255,0.1)',
+      '--shadow-md': '0 4px 8px rgba(255,255,255,0.1)',
+      '--shadow-lg': '0 8px 16px rgba(255,255,255,0.15)',
+
+      // Component specific
+      '--card-bg': '#1a1a1a',
+      '--input-bg': '#000000',
+      '--navbar-bg': '#000000',
+      '--navbar-text': '#ffffff',
+    }
+  }
+};
+
+// ===========================================
 // COLOR CONSTANTS
 // ===========================================
 

@@ -139,7 +139,51 @@ permalink: "/settings/"
             </div>
         </div>
 
-        <!-- SECTION 4: Supplemental Work Template -->
+        <!-- SECTION 4: Theme -->
+        <div class="settings-section">
+            <div class="section-header">
+                <h3>Theme</h3>
+                <button id="save-theme-btn" class="save-btn" type="button">
+                    <span class="save-icon">💾</span>
+                    <span class="save-text">Save Theme</span>
+                </button>
+            </div>
+
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h4>Choose Your Visual Theme</h4>
+                    <button class="collapse-btn" data-target="theme-content" type="button">
+                        <span class="collapse-icon">−</span>
+                    </button>
+                </div>
+                <div class="collapsible-content" id="theme-content">
+                    <div class="theme-selector">
+                        <label for="theme-select">Theme:</label>
+                        <select id="theme-select">
+                            <option value="light">☀️ Light - Clean, bright interface</option>
+                            <option value="dark">🌙 Dark - Eye-friendly for low light</option>
+                            <option value="contrast">⚡ High Contrast - Maximum visibility</option>
+                        </select>
+                        <p class="theme-explanation">
+                            <strong>Light:</strong> Clean, bright interface perfect for daytime use and well-lit environments.<br><br>
+                            <strong>Dark:</strong> Eye-friendly dark theme that reduces eye strain in low-light environments.<br><br>
+                            <strong>High Contrast:</strong> Maximum contrast for accessibility and improved visibility. Great for users with vision needs.
+                        </p>
+                        <div class="theme-preview">
+                            <div class="preview-card">
+                                <div class="preview-header">Theme Preview</div>
+                                <div class="preview-content">
+                                    <div class="preview-text">Your app will look like this</div>
+                                    <button class="preview-button">Sample Button</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: Supplemental Work Template -->
         <div class="settings-section">
             <div class="section-header">
                 <h3>Supplemental Work Template</h3>
@@ -471,6 +515,88 @@ permalink: "/settings/"
     background: white;
     border-radius: 6px;
     border-left: 3px solid var(--primary-color);
+}
+
+.theme-selector {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.theme-selector label {
+    font-weight: 500;
+    font-size: 0.9em;
+    color: var(--dark-gray-color);
+    display: block;
+    margin-bottom: 12px;
+}
+
+.theme-selector select {
+    width: 100%;
+    background: white;
+    border: 1.5px solid #dee2e6;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.theme-explanation {
+    font-size: 0.85em;
+    color: #6c757d;
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    padding: 12px;
+    background: white;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.theme-preview {
+    margin-top: 20px;
+}
+
+.preview-card {
+    background: var(--bg-primary, #ffffff);
+    border: 2px solid var(--border-color, #dee2e6);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.preview-header {
+    background: var(--primary-color, #007bff);
+    color: white;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.preview-content {
+    padding: 20px;
+    background: var(--bg-secondary, #f8f9fa);
+}
+
+.preview-text {
+    color: var(--text-primary, #212529);
+    margin-bottom: 16px;
+    font-size: 0.9em;
+}
+
+.preview-button {
+    background: var(--primary-color, #007bff);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.preview-button:hover {
+    background: var(--primary-hover, #0056b3);
 }
 
 .save-all-btn {

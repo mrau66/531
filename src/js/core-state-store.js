@@ -17,6 +17,7 @@
  * - progressionRate: 'conservative' | 'standard' | 'aggressive'
  * - repScheme: 'standard' | 'fives_pro'
  * - supplementalTemplate: '531x365' | 'bbb' | 'fsl' | 'ssl' | 'fsl_amrap' | 'bbb_beefcake' | 'simplest'
+ * - theme: 'light' | 'dark' | 'contrast'
  * - accessories: {lift: [exercises]}
  * - sessionCompletion: Keyed by "lift_cycle_week"
  * - user: Current authenticated user
@@ -33,6 +34,7 @@ export class CoreStateStore {
       progressionRate: 'conservative',  // 'conservative', 'standard', or 'aggressive'
       repScheme: 'standard',  // 'standard' (5/3/1) or 'fives_pro' (5s PRO)
       supplementalTemplate: '531x365',  // Supplemental work template
+      theme: 'light',  // 'light', 'dark', or 'contrast'
       accessories: { squat: [], bench: [], deadlift: [], ohp: [] },
       sessionCompletion: {},
       user: null,
